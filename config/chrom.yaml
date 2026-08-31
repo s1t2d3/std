@@ -1,0 +1,11 @@
+collection_name : agent
+persist_directory: chrom_db
+
+k : 3
+chunk_size : 200
+overlap_size : 30
+separators: ["\n\n", "\n", ",", "，", "!" ,"！", ".", "。"]
+
+md5_path: md5.txt
+allowed_file_types : ["txt","pdf","json"]
+directory : data/news

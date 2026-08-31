@@ -1,0 +1,3 @@
+system_prompt_path : prompts/main_prompt.txt
+report_prompt_path : prompts/news_summary_prompt.txt
+rag_prompt_path : prompts/rag_summarize.txt

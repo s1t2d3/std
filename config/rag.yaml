@@ -1,0 +1,4 @@
+model : deepseek-v4-flash
+embeddings : nomic-embed-text
+base_url: https://api.deepseek.com
+temperature: 0.9
