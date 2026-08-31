@@ -13,7 +13,6 @@ from model.factory import embed_model
 from utils.config_handler import chrom_config
 from utils.logger_handler import logger
 from utils.path_tool import get_abs_path
-from utils.file_handler import get_md5_hex
 import hashlib
 
 
@@ -164,70 +163,6 @@ class VectorStoreService:
 
         logger.info(f"总计从 {len(json_files)} 个文件加载了 {total_count} 条新新闻")
         return total_count
-
-    # def load_document(self) -> None:
-    #     """
-    #     加载文档到向量数据库（原有功能）
-    #     注意：新闻JSON文件请使用 load_news_from_directory 方法加载
-    #     """
-    #     from utils.file_handler import txt_loader, pdf_loader, listdir_with_allowed_types
-    #
-    #     def check_md5(md5: str) -> bool:
-    #         md5_path: str = get_abs_path(chrom_config["md5_path"])
-    #         if not os.path.exists(md5_path):
-    #             return False
-    #         with open(md5_path, 'r', encoding='utf-8') as f:
-    #             for line in f:
-    #                 if line.strip() == md5:
-    #                     return True
-    #         return False
-    #
-    #     def save_md5(md5: str) -> None:
-    #         md5_path: str = get_abs_path(chrom_config["md5_path"])
-    #         os.makedirs(os.path.dirname(md5_path), exist_ok=True)
-    #         with open(md5_path, 'a', encoding='utf-8') as f:
-    #             f.write(md5 + '\n')
-    #
-    #     def get_file_document(file_path: str) -> List[Document]:
-    #         if file_path.endswith('.txt'):
-    #             return txt_loader(file_path)
-    #         if file_path.endswith('.pdf'):
-    #             return pdf_loader(file_path)
-    #         return []
-    #
-    #     allowed_file_path: List[str] = listdir_with_allowed_types(
-    #         chrom_config["directory"],
-    #         tuple(chrom_config["allowed_file_types"])
-    #     )
-    #
-    #     for path in allowed_file_path:
-    #         # ===== 关键：跳过所有JSON文件 =====
-    #         if path.endswith('.json'):
-    #             logger.info(f"跳过JSON文件: {path}，请使用 load_news_from_directory 加载")
-    #             continue  # 直接跳过，不进入md5检查
-    #
-    #         md5_hex: str = get_md5_hex(path)
-    #
-    #         if check_md5(md5_hex):
-    #             logger.info(f"{path} 该文件已经存在，跳过！")
-    #             continue
-    #
-    #         try:
-    #             document: List[Document] = get_file_document(path)
-    #             if not document:
-    #                 continue
-    #
-    #             spliter_document: List[Document] = self.spliter.split_documents(document)
-    #             if not spliter_document:
-    #                 logger.info(f"{path}文件内没有有效内容，跳过！")
-    #                 continue
-    #
-    #             self.vector_store.add_documents(spliter_document)
-    #             save_md5(md5_hex)
-    #             logger.info(f"{path}文件已添加到向量数据库！")
-    #
-    #         except Exception as e:
-    #             logger.error(f"{path}文件添加向量数据库失败！{str(e)}", exc_info=True)
 
 
 if __name__ == "__main__":

@@ -71,34 +71,10 @@ def search_news_by_keyword(keyword: str) -> str:
         logger.error(f"搜索新闻失败: {str(e)}", exc_info=True)
         return f"搜索新闻时出现错误，请稍后重试。"
 
-
-@tool(description="获取用户所在城市名称，以纯字符串形式返回")
-def get_city() -> str:
-    import random
-    return random.choice(["北京", "上海", "广州", "深圳", "杭州"])
-
-
-@tool(description="根据城市名称查询天气，以纯字符串形式返回")
-def get_weather(city: str) -> str:
-    weather_data = {
-        "北京": {"weather": "晴", "temperature": "28", "humidity": "45%"},
-        "上海": {"weather": "多云", "temperature": "26", "humidity": "60%"},
-        "广州": {"weather": "雷阵雨", "temperature": "30", "humidity": "75%"},
-        "深圳": {"weather": "多云", "temperature": "28", "humidity": "70%"},
-        "杭州": {"weather": "小雨", "temperature": "24", "humidity": "80%"}
-    }
-    if city in weather_data:
-        data = weather_data[city]
-        return f"{city}天气：{data['weather']}，温度{data['temperature']}°C，湿度{data['humidity']}"
-    return f"{city}天气：晴，温度26°C，湿度50%"
-
-
 # 导出所有工具
 tools = [
     rag_summarize,
     get_current_date,
     get_news_by_date,
     search_news_by_keyword,
-    get_city,
-    get_weather
 ]
