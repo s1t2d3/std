@@ -80,7 +80,6 @@ class VectorStoreService:
                 doc_md5 = hashlib.md5(md5_content.encode('utf-8')).hexdigest()
 
                 if self._check_md5(doc_md5):
-                    logger.info(f"新闻 '{title}' 已存在，跳过加载")
                     continue
 
                 content_parts = [

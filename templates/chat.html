@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>智能新闻助手</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="app">
+        <!-- 侧边栏 -->
+        <aside class="sidebar" id="sidebar">
+            <h2>💬 会话列表</h2>
+            <div class="user-info">👤 <span id="username">{{ username }}</span></div>
+            <button class="btn-new" id="newSessionBtn">➕ 新建会话</button>
+            <hr>
+            <div class="session-list" id="sessionList">
+                <div class="empty">暂无会话</div>
+            </div>
+            <hr>
+            <button class="btn-clear" id="clearAllBtn">🗑️ 清空所有会话</button>
+            <hr>
+            <p class="hint">💡 点击会话切换，点击 ✕ 删除</p>
+            <button class="btn-logout" id="logoutBtn">🚪 退出登录</button>
+        </aside>
+
+        <!-- 主内容 -->
+        <main class="main">
+            <h1>🤖 智能新闻助手</h1>
+            <hr>
+
+            <!-- 消息区域 -->
+            <div class="messages" id="messagesContainer">
+                <div class="welcome">
+                    <h2>👋 欢迎使用智能新闻助手</h2>
+                    <p>我可以帮你：</p>
+                    <p>📰 获取今日新闻摘要<br>
+                    🔍 搜索特定新闻资讯<br>
+                    📅 查询指定日期的新闻<br>
+                    🤔 回答新闻相关问题</p>
+                    <p class="hint">在下方输入框开始提问吧 👇</p>
+                </div>
+            </div>
+
+            <!-- 输入区域 -->
+            <div class="input-area">
+                <input type="text" id="promptInput" placeholder="请输入问题..." />
+                <button id="sendBtn">发送</button>
+            </div>
+        </main>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>智能新闻助手 - 登录</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="login-page">
+        <div class="login-container">
+            <h1>🤖 智能新闻助手</h1>
+            <div class="tabs">
+                <button class="tab active" data-tab="login">🔐 登录</button>
+                <button class="tab" data-tab="register">📝 注册</button>
+            </div>
+
+            <!-- 登录表单 -->
+            <form id="loginForm" class="active">
+                <input type="text" id="loginUsername" placeholder="用户名" required>
+                <input type="password" id="loginPassword" placeholder="密码" required>
+                <label>
+                    <input type="checkbox" id="rememberMe"> 记住我（7天内免登录）
+                </label>
+                <button type="submit">登录</button>
+                <div id="loginError" class="error"></div>
+            </form>
+
+            <!-- 注册表单 -->
+            <form id="registerForm">
+                <input type="text" id="registerUsername" placeholder="用户名" required>
+                <input type="password" id="registerPassword" placeholder="密码（至少6位）" required>
+                <input type="password" id="registerConfirm" placeholder="确认密码" required>
+                <button type="submit">注册</button>
+                <div id="registerError" class="error"></div>
+                <div id="registerSuccess" class="success"></div>
+            </form>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>

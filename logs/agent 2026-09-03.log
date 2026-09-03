@@ -1,0 +1,4 @@
+2026-09-03 14:38:35,787 - agent - INFO - middleware.py:46 - [log_before_model]即将调用模型，带有1条消息
+2026-09-03 14:38:35,788 - agent - INFO - middleware.py:57 - [prompt_switch] 🔄 切换到系统提示词
+2026-09-03 14:40:53,551 - agent - INFO - middleware.py:46 - [log_before_model]即将调用模型，带有1条消息
+2026-09-03 14:40:53,552 - agent - INFO - middleware.py:57 - [prompt_switch] 🔄 切换到系统提示词
