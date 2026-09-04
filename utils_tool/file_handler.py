@@ -4,8 +4,8 @@ import hashlib
 from langchain_community.document_loaders import PyPDFLoader, TextLoader ,JSONLoader
 from langchain_core.documents import Document
 
-from utils.logger_handler import logger
-from utils.path_tool import get_abs_path
+from Utils.logger_handler import logger
+from Utils.path_tool import get_abs_path
 
 
 #计算文件的md5
