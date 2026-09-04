@@ -43,6 +43,7 @@ std/
 ├── utils/              # 工具函数
 ├── app.py              # 主入口
 └── md5.txt             # 数据校验
+└── requirements.txt    # 环境依赖
 ```
 
 ---
