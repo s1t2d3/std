@@ -3,7 +3,7 @@ from langchain.agents import create_agent
 from agent.tools.agent_tools import *
 from agent.tools.middleware import *
 from model.factory import chat_model
-from utils.prompt_loader import load_system_prompt
+from utils_tool.prompt_loader import load_system_prompt
 
 def set_current_user(user_id):
     current_user_id = user_id

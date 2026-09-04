@@ -9,7 +9,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 import threading
 from datetime import datetime
 
-from utils.path_tool import get_abs_path
+from utils_tool.path_tool import get_abs_path
 
 # ========================================
 # 配置
@@ -356,42 +356,6 @@ def get_pengpai_news():
     print("=" * 60)
     return results
 
-
-# # ========================================
-# # 统计
-# # ========================================
-# def show_stats():
-#     print("\n📊 数据统计:")
-#     print("-" * 40)
-#
-#     keys = redis_client.keys('news:pengpai:*')
-#     redis_total = 0
-#     for key in keys:
-#         data = redis_client.get(key)
-#         if data:
-#             news_list = json.loads(data)
-#             redis_total += len(news_list)
-#             channel = key.replace("news:pengpai:", "")
-#             print(f"  Redis {channel}: {len(news_list)} 条")
-#     print(f"  Redis 总计: {redis_total} 条")
-#
-#     print()
-#     dir_path = get_abs_path(FILE_DIR)
-#     json_total = 0
-#     if os.path.exists(dir_path):
-#         for filename in os.listdir(dir_path):
-#             if filename.startswith('pengpai_') and filename.endswith('.json'):
-#                 file_path = os.path.join(dir_path, filename)
-#                 with open(file_path, 'r', encoding='utf-8') as f:
-#                     news_list = json.load(f)
-#                     json_total += len(news_list)
-#                     parts = filename.replace("pengpai_", "").split('_')
-#                     channel = '_'.join(parts[:-1]) if len(parts) >= 2 else parts[0]
-#                     print(f"  JSON {channel}: {len(news_list)} 条")
-#     print(f"  JSON 总计: {json_total} 条")
-#     print("-" * 40)
-
-
 # ========================================
 # 主程序
 # ========================================
@@ -404,4 +368,3 @@ if __name__ == "__main__":
         exit(1)
 
     get_pengpai_news()
-    # show_stats()

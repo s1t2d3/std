@@ -1,6 +1,6 @@
-from Utils.config_handler import prompts_config
-from Utils.logger_handler import logger
-from Utils.path_tool import get_abs_path
+from utils_tool.config_handler import prompts_config
+from utils_tool.logger_handler import logger
+from utils_tool.path_tool import get_abs_path
 
 
 def load_system_prompt():

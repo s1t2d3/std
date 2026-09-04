@@ -6,7 +6,7 @@ from datetime import datetime
 from langchain_core.tools import tool
 
 from rag.rag_service import news_rag
-from utils.logger_handler import logger
+from utils_tool.logger_handler import logger
 
 # 摘要模式标志
 _is_summary = False

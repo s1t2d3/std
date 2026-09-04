@@ -6,7 +6,7 @@ from abc import ABC, abstractmethod
 from langchain_ollama import OllamaEmbeddings
 from langchain_openai import ChatOpenAI
 
-from utils.config_handler import rag_config
+from utils_tool.config_handler import rag_config
 import os
 
 class BaseModelFactory(ABC):

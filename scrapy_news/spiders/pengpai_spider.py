@@ -2,7 +2,7 @@
 import json
 import time
 import scrapy
-from scrapy_new.items import NewsItem
+from scrapy_news.items import NewsItem
 
 # ========================================
 # 提取标签
@@ -32,7 +32,6 @@ def get_detail_data(data, page, seen, channel):
         cont_id = top_content.get("contId")
         if cont_id and cont_id not in seen:
             seen.add(cont_id)
-            # 提取标签（注意：topContent 中可能是 tagList）
             tag_list = top_content.get("tagList", [])
             tag_str = extract_tags(tag_list)
 
@@ -59,8 +58,6 @@ def get_detail_data(data, page, seen, channel):
         cont_id = new.get("contId")
         if cont_id and cont_id not in seen:
             seen.add(cont_id)
-
-            # 提取标签
             tag_list = new.get("tagList", [])
             tag_str = extract_tags(tag_list)
 
@@ -83,8 +80,12 @@ def get_detail_data(data, page, seen, channel):
 
     return all_list, start_time
 
+
 class PengpaiSpider(scrapy.Spider):
     name = "pengpai"
+
+    # ========== 最大翻页数 ==========
+    MAX_PAGES = 2  # 每个频道最多爬取 2 页
 
     # ========== 只有这个爬虫生效的配置 ==========
     custom_settings = {
@@ -96,7 +97,6 @@ class PengpaiSpider(scrapy.Spider):
             'origin': 'https://www.thepaper.cn',
             'referer': 'https://www.thepaper.cn/',
             'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0',
-            # 其他澎湃专用headers...
         },
         'COOKIES_ENABLED': True,
         'COOKIES': {
@@ -106,17 +106,20 @@ class PengpaiSpider(scrapy.Spider):
             'Hm_lpvt_94a1e06bbce219d29285cee2e37d1d26': '1786755791',
             'ariaDefaultTheme': 'undefined',
         },
-        'DOWNLOAD_DELAY': 1,  # 澎湃请求慢一点
-        'CONCURRENT_REQUESTS': 5,  # 并发数低一点
+        'DOWNLOAD_DELAY': 1,
+        'CONCURRENT_REQUESTS': 5,
     }
 
-    def start_requests(self):
+    async def start(self):
         """获取频道列表，然后为每个频道生成请求"""
-        # 先请求频道列表
+        self.logger.info("=" * 60)
+        self.logger.info("澎湃爬虫启动！")
+        self.logger.info("=" * 60)
+        self.logger.info(f"每个频道最大翻页数: {self.MAX_PAGES}")
+
         yield scrapy.Request(
             url='https://cache.thepaper.cn/contentapi/node/getWwwAllNodes',
             callback=self.parse_channels,
-            # 使用 custom_settings 中的 headers，不需要手动添加
         )
 
     def parse_channels(self, response):
@@ -124,32 +127,31 @@ class PengpaiSpider(scrapy.Spider):
         data = response.json()
         all_channels = data['data']['channelList']
 
-        # 跳过不需要的频道（和原代码一致）
         skip_channels = {"播客", "视频", "直播", "短剧"}
 
-        for channel in all_channels[1:12]:  # 从索引1开始
+        for channel in all_channels[1:12]:
             channel_name = channel['name']
             if channel_name in skip_channels:
                 continue
 
             channel_id = channel['nodeId']
 
-            # 判断是否是"精选"频道
             if channel_name == "精选":
                 url = "https://api.thepaper.cn/contentapi/channel/depth"
             else:
                 url = "https://api.thepaper.cn/contentapi/nodeCont/getByChannelId"
 
-            # 生成请求，动态参数在 parse 中处理
+            self.logger.info(f"正在爬取 {channel_name} 频道")
+
             yield scrapy.Request(
                 url=url,
                 method='POST',
-                headers={'Content-Type': 'application/json'},  # 补充POST需要的头
+                headers={'Content-Type': 'application/json'},
                 body=json.dumps({
                     "channelId": channel_id,
                     'pageSize': 20,
                     'cardMode': 152,
-                    'startTime': str(int(time.time() * 1000)),  # 动态时间戳
+                    'startTime': str(int(time.time() * 1000)),
                     'pageNum': 1,
                 }),
                 meta={
@@ -168,6 +170,8 @@ class PengpaiSpider(scrapy.Spider):
         channel_id = response.meta['channel_id']
         url_type = response.meta['url_type']
 
+        self.logger.info(f"正在解析 {channel} 频道，第 {current_page} 页")
+
         data = response.json()
 
         news_list, start_time = get_detail_data(data, current_page, set(), channel)
@@ -184,7 +188,11 @@ class PengpaiSpider(scrapy.Spider):
             item['来源'] = '澎湃新闻'
             yield item
 
-        # 处理翻页
+        # ========== 翻页逻辑（最多爬取 MAX_PAGES 页） ==========
+        if current_page >= self.MAX_PAGES:
+            self.logger.info(f"{channel} 频道已爬取到最大页数 {self.MAX_PAGES}，停止翻页")
+            return
+
         if url_type == 'depth':
             has_next = data.get('data', {}).get('pageInfo', {}).get('hasNext', False)
         else:
@@ -197,6 +205,7 @@ class PengpaiSpider(scrapy.Spider):
             else:
                 url = "https://api.thepaper.cn/contentapi/nodeCont/getByChannelId"
 
+            self.logger.info(f"继续翻页: {channel} 频道，第 {next_page} 页")
             yield scrapy.Request(
                 url=url,
                 method='POST',
@@ -205,7 +214,7 @@ class PengpaiSpider(scrapy.Spider):
                     "channelId": channel_id,
                     'pageSize': 20,
                     'cardMode': 152,
-                    'startTime': str(start_time),  # 使用上一页返回的 startTime
+                    'startTime': str(start_time),
                     'pageNum': next_page,
                 }),
                 meta={
@@ -216,3 +225,5 @@ class PengpaiSpider(scrapy.Spider):
                 },
                 callback=self.parse_news
             )
+        else:
+            self.logger.info(f"{channel} 频道没有更多数据了")

@@ -11,8 +11,8 @@ from langchain_core.prompts import PromptTemplate
 
 from model.factory import chat_model
 from rag.vector_store import VectorStoreService
-from utils.prompt_loader import load_rag_prompt, load_summary_prompt
-from utils.logger_handler import logger
+from utils_tool.prompt_loader import load_rag_prompt, load_summary_prompt
+from utils_tool.logger_handler import logger
 
 
 class NewsRagService:

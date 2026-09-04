@@ -98,7 +98,7 @@ class NewsPipeline:
         """可选：保存到Redis"""
         try:
             import redis
-            from scrapy_new import settings
+            from scrapy_news import settings
 
             redis_client = redis.Redis(
                 host=settings.REDIS_HOST,

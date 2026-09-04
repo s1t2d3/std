@@ -2,7 +2,7 @@
 
 import yaml
 
-from Utils.path_tool import get_abs_path
+from utils_tool.path_tool import get_abs_path
 
 
 def load_rag_config(config_path = get_abs_path("config/rag.yaml"),encoding = "utf-8"):
