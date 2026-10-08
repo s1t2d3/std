@@ -1,0 +1,7 @@
+name: Build and Push to GHCR
+
+on: 
+  push
+    
+
+  
