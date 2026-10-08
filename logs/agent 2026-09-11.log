@@ -1,0 +1,267 @@
+2026-09-11 16:01:48,614 - agent - ERROR - vector_store.py:127 - 加载新闻到向量数据库失败: Failed to connect to Ollama. Please check that Ollama is downloaded, running and accessible. https://ollama.com/download
+Traceback (most recent call last):
+  File "D:\develop\PycharmProjects\AGENT项目\rag\vector_store.py", line 120, in load_news_documents
+    self.vector_store.add_documents(spliter_document)
+  File "D:\develop\PycharmProjects\PyrhonLearn\.venv\Lib\site-packages\langchain_core\vectorstores\base.py", line 258, in add_documents
+    return self.add_texts(texts, metadatas, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\develop\PycharmProjects\PyrhonLearn\.venv\Lib\site-packages\langchain_chroma\vectorstores.py", line 627, in add_texts
+    embeddings = self._embedding_function.embed_documents(texts)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\develop\PycharmProjects\PyrhonLearn\.venv\Lib\site-packages\langchain_ollama\embeddings.py", line 325, in embed_documents
+    return self._client.embed(
+           ^^^^^^^^^^^^^^^^^^^
+  File "D:\develop\PycharmProjects\PyrhonLearn\.venv\Lib\site-packages\ollama\_client.py", line 415, in embed
+    return self._request(
+           ^^^^^^^^^^^^^^
+  File "D:\develop\PycharmProjects\PyrhonLearn\.venv\Lib\site-packages\ollama\_client.py", line 199, in _request
+    return cls(**self._request_raw(*args, **kwargs).json())
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\develop\PycharmProjects\PyrhonLearn\.venv\Lib\site-packages\ollama\_client.py", line 145, in _request_raw
+    raise ConnectionError(CONNECTION_ERROR_MESSAGE) from None
+ConnectionError: Failed to connect to Ollama. Please check that Ollama is downloaded, running and accessible. https://ollama.com/download
+2026-09-11 16:01:48,657 - agent - INFO - vector_store.py:158 - 从 央视新闻_china_2026-09-06.json 加载了 0 条新新闻
+2026-09-11 16:01:50,716 - agent - ERROR - vector_store.py:127 - 加载新闻到向量数据库失败: Failed to connect to Ollama. Please check that Ollama is downloaded, running and accessible. https://ollama.com/download
+Traceback (most recent call last):
+  File "D:\develop\PycharmProjects\AGENT项目\rag\vector_store.py", line 120, in load_news_documents
+    self.vector_store.add_documents(spliter_document)
+  File "D:\develop\PycharmProjects\PyrhonLearn\.venv\Lib\site-packages\langchain_core\vectorstores\base.py", line 258, in add_documents
+    return self.add_texts(texts, metadatas, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\develop\PycharmProjects\PyrhonLearn\.venv\Lib\site-packages\langchain_chroma\vectorstores.py", line 627, in add_texts
+    embeddings = self._embedding_function.embed_documents(texts)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\develop\PycharmProjects\PyrhonLearn\.venv\Lib\site-packages\langchain_ollama\embeddings.py", line 325, in embed_documents
+    return self._client.embed(
+           ^^^^^^^^^^^^^^^^^^^
+  File "D:\develop\PycharmProjects\PyrhonLearn\.venv\Lib\site-packages\ollama\_client.py", line 415, in embed
+    return self._request(
+           ^^^^^^^^^^^^^^
+  File "D:\develop\PycharmProjects\PyrhonLearn\.venv\Lib\site-packages\ollama\_client.py", line 199, in _request
+    return cls(**self._request_raw(*args, **kwargs).json())
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\develop\PycharmProjects\PyrhonLearn\.venv\Lib\site-packages\ollama\_client.py", line 145, in _request_raw
+    raise ConnectionError(CONNECTION_ERROR_MESSAGE) from None
+ConnectionError: Failed to connect to Ollama. Please check that Ollama is downloaded, running and accessible. https://ollama.com/download
+2026-09-11 16:01:50,717 - agent - INFO - vector_store.py:158 - 从 央视新闻_china_2026-09-08.json 加载了 0 条新新闻
+2026-09-11 16:01:52,764 - agent - ERROR - vector_store.py:127 - 加载新闻到向量数据库失败: Failed to connect to Ollama. Please check that Ollama is downloaded, running and accessible. https://ollama.com/download
+Traceback (most recent call last):
+  File "D:\develop\PycharmProjects\AGENT项目\rag\vector_store.py", line 120, in load_news_documents
+    self.vector_store.add_documents(spliter_document)
+  File "D:\develop\PycharmProjects\PyrhonLearn\.venv\Lib\site-packages\langchain_core\vectorstores\base.py", line 258, in add_documents
+    return self.add_texts(texts, metadatas, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\develop\PycharmProjects\PyrhonLearn\.venv\Lib\site-packages\langchain_chroma\vectorstores.py", line 627, in add_texts
+    embeddings = self._embedding_function.embed_documents(texts)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\develop\PycharmProjects\PyrhonLearn\.venv\Lib\site-packages\langchain_ollama\embeddings.py", line 325, in embed_documents
+    return self._client.embed(
+           ^^^^^^^^^^^^^^^^^^^
+  File "D:\develop\PycharmProjects\PyrhonLearn\.venv\Lib\site-packages\ollama\_client.py", line 415, in embed
+    return self._request(
+           ^^^^^^^^^^^^^^
+  File "D:\develop\PycharmProjects\PyrhonLearn\.venv\Lib\site-packages\ollama\_client.py", line 199, in _request
+    return cls(**self._request_raw(*args, **kwargs).json())
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\develop\PycharmProjects\PyrhonLearn\.venv\Lib\site-packages\ollama\_client.py", line 145, in _request_raw
+    raise ConnectionError(CONNECTION_ERROR_MESSAGE) from None
+ConnectionError: Failed to connect to Ollama. Please check that Ollama is downloaded, running and accessible. https://ollama.com/download
+2026-09-11 16:01:52,765 - agent - INFO - vector_store.py:158 - 从 央视新闻_china_2026-09-11.json 加载了 0 条新新闻
+2026-09-11 16:01:54,818 - agent - ERROR - vector_store.py:127 - 加载新闻到向量数据库失败: Failed to connect to Ollama. Please check that Ollama is downloaded, running and accessible. https://ollama.com/download
+Traceback (most recent call last):
+  File "D:\develop\PycharmProjects\AGENT项目\rag\vector_store.py", line 120, in load_news_documents
+    self.vector_store.add_documents(spliter_document)
+  File "D:\develop\PycharmProjects\PyrhonLearn\.venv\Lib\site-packages\langchain_core\vectorstores\base.py", line 258, in add_documents
+    return self.add_texts(texts, metadatas, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\develop\PycharmProjects\PyrhonLearn\.venv\Lib\site-packages\langchain_chroma\vectorstores.py", line 627, in add_texts
+    embeddings = self._embedding_function.embed_documents(texts)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\develop\PycharmProjects\PyrhonLearn\.venv\Lib\site-packages\langchain_ollama\embeddings.py", line 325, in embed_documents
+    return self._client.embed(
+           ^^^^^^^^^^^^^^^^^^^
+  File "D:\develop\PycharmProjects\PyrhonLearn\.venv\Lib\site-packages\ollama\_client.py", line 415, in embed
+    return self._request(
+           ^^^^^^^^^^^^^^
+  File "D:\develop\PycharmProjects\PyrhonLearn\.venv\Lib\site-packages\ollama\_client.py", line 199, in _request
+    return cls(**self._request_raw(*args, **kwargs).json())
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\develop\PycharmProjects\PyrhonLearn\.venv\Lib\site-packages\ollama\_client.py", line 145, in _request_raw
+    raise ConnectionError(CONNECTION_ERROR_MESSAGE) from None
+ConnectionError: Failed to connect to Ollama. Please check that Ollama is downloaded, running and accessible. https://ollama.com/download
+2026-09-11 16:01:54,819 - agent - INFO - vector_store.py:158 - 从 央视新闻_edu_2026-09-06.json 加载了 0 条新新闻
+2026-09-11 16:01:56,873 - agent - ERROR - vector_store.py:127 - 加载新闻到向量数据库失败: Failed to connect to Ollama. Please check that Ollama is downloaded, running and accessible. https://ollama.com/download
+Traceback (most recent call last):
+  File "D:\develop\PycharmProjects\AGENT项目\rag\vector_store.py", line 120, in load_news_documents
+    self.vector_store.add_documents(spliter_document)
+  File "D:\develop\PycharmProjects\PyrhonLearn\.venv\Lib\site-packages\langchain_core\vectorstores\base.py", line 258, in add_documents
+    return self.add_texts(texts, metadatas, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\develop\PycharmProjects\PyrhonLearn\.venv\Lib\site-packages\langchain_chroma\vectorstores.py", line 627, in add_texts
+    embeddings = self._embedding_function.embed_documents(texts)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\develop\PycharmProjects\PyrhonLearn\.venv\Lib\site-packages\langchain_ollama\embeddings.py", line 325, in embed_documents
+    return self._client.embed(
+           ^^^^^^^^^^^^^^^^^^^
+  File "D:\develop\PycharmProjects\PyrhonLearn\.venv\Lib\site-packages\ollama\_client.py", line 415, in embed
+    return self._request(
+           ^^^^^^^^^^^^^^
+  File "D:\develop\PycharmProjects\PyrhonLearn\.venv\Lib\site-packages\ollama\_client.py", line 199, in _request
+    return cls(**self._request_raw(*args, **kwargs).json())
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\develop\PycharmProjects\PyrhonLearn\.venv\Lib\site-packages\ollama\_client.py", line 145, in _request_raw
+    raise ConnectionError(CONNECTION_ERROR_MESSAGE) from None
+ConnectionError: Failed to connect to Ollama. Please check that Ollama is downloaded, running and accessible. https://ollama.com/download
+2026-09-11 16:01:56,874 - agent - INFO - vector_store.py:158 - 从 央视新闻_edu_2026-09-08.json 加载了 0 条新新闻
+2026-09-11 16:01:58,926 - agent - ERROR - vector_store.py:127 - 加载新闻到向量数据库失败: Failed to connect to Ollama. Please check that Ollama is downloaded, running and accessible. https://ollama.com/download
+Traceback (most recent call last):
+  File "D:\develop\PycharmProjects\AGENT项目\rag\vector_store.py", line 120, in load_news_documents
+    self.vector_store.add_documents(spliter_document)
+  File "D:\develop\PycharmProjects\PyrhonLearn\.venv\Lib\site-packages\langchain_core\vectorstores\base.py", line 258, in add_documents
+    return self.add_texts(texts, metadatas, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\develop\PycharmProjects\PyrhonLearn\.venv\Lib\site-packages\langchain_chroma\vectorstores.py", line 627, in add_texts
+    embeddings = self._embedding_function.embed_documents(texts)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\develop\PycharmProjects\PyrhonLearn\.venv\Lib\site-packages\langchain_ollama\embeddings.py", line 325, in embed_documents
+    return self._client.embed(
+           ^^^^^^^^^^^^^^^^^^^
+  File "D:\develop\PycharmProjects\PyrhonLearn\.venv\Lib\site-packages\ollama\_client.py", line 415, in embed
+    return self._request(
+           ^^^^^^^^^^^^^^
+  File "D:\develop\PycharmProjects\PyrhonLearn\.venv\Lib\site-packages\ollama\_client.py", line 199, in _request
+    return cls(**self._request_raw(*args, **kwargs).json())
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\develop\PycharmProjects\PyrhonLearn\.venv\Lib\site-packages\ollama\_client.py", line 145, in _request_raw
+    raise ConnectionError(CONNECTION_ERROR_MESSAGE) from None
+ConnectionError: Failed to connect to Ollama. Please check that Ollama is downloaded, running and accessible. https://ollama.com/download
+2026-09-11 16:01:58,927 - agent - INFO - vector_store.py:158 - 从 央视新闻_edu_2026-09-11.json 加载了 0 条新新闻
+2026-09-11 16:02:00,984 - agent - ERROR - vector_store.py:127 - 加载新闻到向量数据库失败: Failed to connect to Ollama. Please check that Ollama is downloaded, running and accessible. https://ollama.com/download
+Traceback (most recent call last):
+  File "D:\develop\PycharmProjects\AGENT项目\rag\vector_store.py", line 120, in load_news_documents
+    self.vector_store.add_documents(spliter_document)
+  File "D:\develop\PycharmProjects\PyrhonLearn\.venv\Lib\site-packages\langchain_core\vectorstores\base.py", line 258, in add_documents
+    return self.add_texts(texts, metadatas, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\develop\PycharmProjects\PyrhonLearn\.venv\Lib\site-packages\langchain_chroma\vectorstores.py", line 627, in add_texts
+    embeddings = self._embedding_function.embed_documents(texts)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\develop\PycharmProjects\PyrhonLearn\.venv\Lib\site-packages\langchain_ollama\embeddings.py", line 325, in embed_documents
+    return self._client.embed(
+           ^^^^^^^^^^^^^^^^^^^
+  File "D:\develop\PycharmProjects\PyrhonLearn\.venv\Lib\site-packages\ollama\_client.py", line 415, in embed
+    return self._request(
+           ^^^^^^^^^^^^^^
+  File "D:\develop\PycharmProjects\PyrhonLearn\.venv\Lib\site-packages\ollama\_client.py", line 199, in _request
+    return cls(**self._request_raw(*args, **kwargs).json())
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\develop\PycharmProjects\PyrhonLearn\.venv\Lib\site-packages\ollama\_client.py", line 145, in _request_raw
+    raise ConnectionError(CONNECTION_ERROR_MESSAGE) from None
+ConnectionError: Failed to connect to Ollama. Please check that Ollama is downloaded, running and accessible. https://ollama.com/download
+2026-09-11 16:02:00,985 - agent - INFO - vector_store.py:158 - 从 央视新闻_ent_2026-09-06.json 加载了 0 条新新闻
+2026-09-11 16:02:03,027 - agent - ERROR - vector_store.py:127 - 加载新闻到向量数据库失败: Failed to connect to Ollama. Please check that Ollama is downloaded, running and accessible. https://ollama.com/download
+Traceback (most recent call last):
+  File "D:\develop\PycharmProjects\AGENT项目\rag\vector_store.py", line 120, in load_news_documents
+    self.vector_store.add_documents(spliter_document)
+  File "D:\develop\PycharmProjects\PyrhonLearn\.venv\Lib\site-packages\langchain_core\vectorstores\base.py", line 258, in add_documents
+    return self.add_texts(texts, metadatas, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\develop\PycharmProjects\PyrhonLearn\.venv\Lib\site-packages\langchain_chroma\vectorstores.py", line 627, in add_texts
+    embeddings = self._embedding_function.embed_documents(texts)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\develop\PycharmProjects\PyrhonLearn\.venv\Lib\site-packages\langchain_ollama\embeddings.py", line 325, in embed_documents
+    return self._client.embed(
+           ^^^^^^^^^^^^^^^^^^^
+  File "D:\develop\PycharmProjects\PyrhonLearn\.venv\Lib\site-packages\ollama\_client.py", line 415, in embed
+    return self._request(
+           ^^^^^^^^^^^^^^
+  File "D:\develop\PycharmProjects\PyrhonLearn\.venv\Lib\site-packages\ollama\_client.py", line 199, in _request
+    return cls(**self._request_raw(*args, **kwargs).json())
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\develop\PycharmProjects\PyrhonLearn\.venv\Lib\site-packages\ollama\_client.py", line 145, in _request_raw
+    raise ConnectionError(CONNECTION_ERROR_MESSAGE) from None
+ConnectionError: Failed to connect to Ollama. Please check that Ollama is downloaded, running and accessible. https://ollama.com/download
+2026-09-11 16:02:03,027 - agent - INFO - vector_store.py:158 - 从 央视新闻_ent_2026-09-08.json 加载了 0 条新新闻
+2026-09-11 16:03:20,293 - agent - INFO - vector_store.py:125 - 成功加载 80 条新闻到向量数据库
+2026-09-11 16:03:20,294 - agent - INFO - vector_store.py:158 - 从 央视新闻_china_2026-09-06.json 加载了 80 条新新闻
+2026-09-11 16:03:21,378 - agent - INFO - vector_store.py:125 - 成功加载 78 条新闻到向量数据库
+2026-09-11 16:03:21,378 - agent - INFO - vector_store.py:158 - 从 央视新闻_china_2026-09-08.json 加载了 78 条新新闻
+2026-09-11 16:03:22,650 - agent - INFO - vector_store.py:125 - 成功加载 79 条新闻到向量数据库
+2026-09-11 16:03:22,650 - agent - INFO - vector_store.py:158 - 从 央视新闻_china_2026-09-11.json 加载了 79 条新新闻
+2026-09-11 16:03:23,961 - agent - INFO - vector_store.py:125 - 成功加载 80 条新闻到向量数据库
+2026-09-11 16:03:23,962 - agent - INFO - vector_store.py:158 - 从 央视新闻_edu_2026-09-06.json 加载了 80 条新新闻
+2026-09-11 16:03:24,231 - agent - INFO - vector_store.py:125 - 成功加载 5 条新闻到向量数据库
+2026-09-11 16:03:24,231 - agent - INFO - vector_store.py:158 - 从 央视新闻_edu_2026-09-08.json 加载了 5 条新新闻
+2026-09-11 16:03:24,605 - agent - INFO - vector_store.py:125 - 成功加载 18 条新闻到向量数据库
+2026-09-11 16:03:24,605 - agent - INFO - vector_store.py:158 - 从 央视新闻_edu_2026-09-11.json 加载了 18 条新新闻
+2026-09-11 16:03:25,849 - agent - INFO - vector_store.py:125 - 成功加载 77 条新闻到向量数据库
+2026-09-11 16:03:25,849 - agent - INFO - vector_store.py:158 - 从 央视新闻_ent_2026-09-06.json 加载了 77 条新新闻
+2026-09-11 16:03:26,117 - agent - INFO - vector_store.py:125 - 成功加载 9 条新闻到向量数据库
+2026-09-11 16:03:26,117 - agent - INFO - vector_store.py:158 - 从 央视新闻_ent_2026-09-08.json 加载了 9 条新新闻
+2026-09-11 16:03:26,412 - agent - INFO - vector_store.py:125 - 成功加载 9 条新闻到向量数据库
+2026-09-11 16:03:26,412 - agent - INFO - vector_store.py:158 - 从 央视新闻_ent_2026-09-11.json 加载了 9 条新新闻
+2026-09-11 16:03:27,728 - agent - INFO - vector_store.py:125 - 成功加载 77 条新闻到向量数据库
+2026-09-11 16:03:27,728 - agent - INFO - vector_store.py:158 - 从 央视新闻_law_2026-09-06.json 加载了 77 条新新闻
+2026-09-11 16:03:28,189 - agent - INFO - vector_store.py:125 - 成功加载 22 条新闻到向量数据库
+2026-09-11 16:03:28,189 - agent - INFO - vector_store.py:158 - 从 央视新闻_law_2026-09-08.json 加载了 22 条新新闻
+2026-09-11 16:03:28,988 - agent - INFO - vector_store.py:125 - 成功加载 38 条新闻到向量数据库
+2026-09-11 16:03:28,988 - agent - INFO - vector_store.py:158 - 从 央视新闻_law_2026-09-11.json 加载了 38 条新新闻
+2026-09-11 16:03:30,334 - agent - INFO - vector_store.py:125 - 成功加载 67 条新闻到向量数据库
+2026-09-11 16:03:30,335 - agent - INFO - vector_store.py:158 - 从 央视新闻_life_2026-09-06.json 加载了 67 条新新闻
+2026-09-11 16:03:30,690 - agent - INFO - vector_store.py:125 - 成功加载 9 条新闻到向量数据库
+2026-09-11 16:03:30,690 - agent - INFO - vector_store.py:158 - 从 央视新闻_life_2026-09-08.json 加载了 9 条新新闻
+2026-09-11 16:03:31,256 - agent - INFO - vector_store.py:125 - 成功加载 22 条新闻到向量数据库
+2026-09-11 16:03:31,256 - agent - INFO - vector_store.py:158 - 从 央视新闻_life_2026-09-11.json 加载了 22 条新新闻
+2026-09-11 16:03:31,872 - agent - INFO - vector_store.py:125 - 成功加载 33 条新闻到向量数据库
+2026-09-11 16:03:31,872 - agent - INFO - vector_store.py:158 - 从 央视新闻_news_2026-09-06.json 加载了 33 条新新闻
+2026-09-11 16:03:32,520 - agent - INFO - vector_store.py:125 - 成功加载 20 条新闻到向量数据库
+2026-09-11 16:03:32,520 - agent - INFO - vector_store.py:158 - 从 央视新闻_news_2026-09-08.json 加载了 20 条新新闻
+2026-09-11 16:03:32,993 - agent - INFO - vector_store.py:125 - 成功加载 12 条新闻到向量数据库
+2026-09-11 16:03:32,993 - agent - INFO - vector_store.py:158 - 从 央视新闻_news_2026-09-11.json 加载了 12 条新新闻
+2026-09-11 16:03:34,104 - agent - INFO - vector_store.py:125 - 成功加载 57 条新闻到向量数据库
+2026-09-11 16:03:34,104 - agent - INFO - vector_store.py:158 - 从 央视新闻_society_2026-09-06.json 加载了 57 条新新闻
+2026-09-11 16:03:34,675 - agent - INFO - vector_store.py:125 - 成功加载 18 条新闻到向量数据库
+2026-09-11 16:03:34,676 - agent - INFO - vector_store.py:158 - 从 央视新闻_society_2026-09-08.json 加载了 18 条新新闻
+2026-09-11 16:03:35,278 - agent - INFO - vector_store.py:125 - 成功加载 30 条新闻到向量数据库
+2026-09-11 16:03:35,279 - agent - INFO - vector_store.py:158 - 从 央视新闻_society_2026-09-11.json 加载了 30 条新新闻
+2026-09-11 16:03:36,361 - agent - INFO - vector_store.py:125 - 成功加载 70 条新闻到向量数据库
+2026-09-11 16:03:36,361 - agent - INFO - vector_store.py:158 - 从 央视新闻_tech_2026-09-06.json 加载了 70 条新新闻
+2026-09-11 16:03:36,488 - agent - INFO - vector_store.py:125 - 成功加载 3 条新闻到向量数据库
+2026-09-11 16:03:36,488 - agent - INFO - vector_store.py:158 - 从 央视新闻_tech_2026-09-08.json 加载了 3 条新新闻
+2026-09-11 16:03:36,766 - agent - INFO - vector_store.py:125 - 成功加载 12 条新闻到向量数据库
+2026-09-11 16:03:36,767 - agent - INFO - vector_store.py:158 - 从 央视新闻_tech_2026-09-11.json 加载了 12 条新新闻
+2026-09-11 16:03:37,645 - agent - INFO - vector_store.py:125 - 成功加载 57 条新闻到向量数据库
+2026-09-11 16:03:37,646 - agent - INFO - vector_store.py:158 - 从 央视新闻_world_2026-09-06.json 加载了 57 条新新闻
+2026-09-11 16:03:38,271 - agent - INFO - vector_store.py:125 - 成功加载 35 条新闻到向量数据库
+2026-09-11 16:03:38,271 - agent - INFO - vector_store.py:158 - 从 央视新闻_world_2026-09-08.json 加载了 35 条新新闻
+2026-09-11 16:03:39,144 - agent - INFO - vector_store.py:125 - 成功加载 57 条新闻到向量数据库
+2026-09-11 16:03:39,144 - agent - INFO - vector_store.py:158 - 从 央视新闻_world_2026-09-11.json 加载了 57 条新新闻
+2026-09-11 16:03:39,505 - agent - INFO - vector_store.py:125 - 成功加载 20 条新闻到向量数据库
+2026-09-11 16:03:39,505 - agent - INFO - vector_store.py:158 - 从 澎湃新闻_上海书评_2026-09-06.json 加载了 20 条新新闻
+2026-09-11 16:03:39,850 - agent - INFO - vector_store.py:125 - 成功加载 20 条新闻到向量数据库
+2026-09-11 16:03:39,850 - agent - INFO - vector_store.py:158 - 从 澎湃新闻_上海书评_2026-09-11.json 加载了 20 条新新闻
+2026-09-11 16:03:40,201 - agent - INFO - vector_store.py:125 - 成功加载 20 条新闻到向量数据库
+2026-09-11 16:03:40,201 - agent - INFO - vector_store.py:158 - 从 澎湃新闻_体育_2026-09-06.json 加载了 20 条新新闻
+2026-09-11 16:03:40,549 - agent - INFO - vector_store.py:125 - 成功加载 20 条新闻到向量数据库
+2026-09-11 16:03:40,549 - agent - INFO - vector_store.py:158 - 从 澎湃新闻_体育_2026-09-11.json 加载了 20 条新新闻
+2026-09-11 16:03:40,913 - agent - INFO - vector_store.py:125 - 成功加载 20 条新闻到向量数据库
+2026-09-11 16:03:40,913 - agent - INFO - vector_store.py:158 - 从 澎湃新闻_国际_2026-09-06.json 加载了 20 条新新闻
+2026-09-11 16:03:41,262 - agent - INFO - vector_store.py:125 - 成功加载 20 条新闻到向量数据库
+2026-09-11 16:03:41,262 - agent - INFO - vector_store.py:158 - 从 澎湃新闻_国际_2026-09-11.json 加载了 20 条新新闻
+2026-09-11 16:03:41,536 - agent - INFO - vector_store.py:125 - 成功加载 13 条新闻到向量数据库
+2026-09-11 16:03:41,537 - agent - INFO - vector_store.py:158 - 从 澎湃新闻_思想_2026-09-06.json 加载了 13 条新新闻
+2026-09-11 16:03:41,837 - agent - INFO - vector_store.py:125 - 成功加载 15 条新闻到向量数据库
+2026-09-11 16:03:41,838 - agent - INFO - vector_store.py:158 - 从 澎湃新闻_思想_2026-09-11.json 加载了 15 条新新闻
+2026-09-11 16:03:42,197 - agent - INFO - vector_store.py:125 - 成功加载 20 条新闻到向量数据库
+2026-09-11 16:03:42,197 - agent - INFO - vector_store.py:158 - 从 澎湃新闻_时事_2026-09-06.json 加载了 20 条新新闻
+2026-09-11 16:03:42,553 - agent - INFO - vector_store.py:125 - 成功加载 20 条新闻到向量数据库
+2026-09-11 16:03:42,553 - agent - INFO - vector_store.py:158 - 从 澎湃新闻_时事_2026-09-11.json 加载了 20 条新新闻
+2026-09-11 16:03:42,780 - agent - INFO - vector_store.py:125 - 成功加载 8 条新闻到向量数据库
+2026-09-11 16:03:42,781 - agent - INFO - vector_store.py:158 - 从 澎湃新闻_精选_2026-09-06.json 加载了 8 条新新闻
+2026-09-11 16:03:42,997 - agent - INFO - vector_store.py:125 - 成功加载 8 条新闻到向量数据库
+2026-09-11 16:03:42,997 - agent - INFO - vector_store.py:158 - 从 澎湃新闻_精选_2026-09-11.json 加载了 8 条新新闻
+2026-09-11 16:03:43,364 - agent - INFO - vector_store.py:125 - 成功加载 18 条新闻到向量数据库
+2026-09-11 16:03:43,364 - agent - INFO - vector_store.py:158 - 从 澎湃新闻_财经_2026-09-06.json 加载了 18 条新新闻
+2026-09-11 16:03:43,693 - agent - INFO - vector_store.py:125 - 成功加载 17 条新闻到向量数据库
+2026-09-11 16:03:43,693 - agent - INFO - vector_store.py:158 - 从 澎湃新闻_财经_2026-09-11.json 加载了 17 条新新闻
+2026-09-11 16:03:43,693 - agent - INFO - vector_store.py:163 - 总计从 41 个文件加载了 1313 条新新闻

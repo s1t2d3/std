@@ -1,8 +1,24 @@
 import scrapy
 import json
 import re
+import os
 from typing import Optional, List
 from scrapy_news.items import NewsItem
+from scrapy_redis.spiders import RedisSpider
+
+COOKIE_FILE = "cookies_data/cctv_cookies.json"
+
+def load_cookies(path: str) -> dict:
+    if not os.path.exists(path):
+        return {}
+    with open(path, "r", encoding="utf-8") as f:
+        data = json.load(f)
+    if isinstance(data, dict):
+        return data
+    if isinstance(data, list):
+        return {c["name"]: c["value"] for c in data if "name" in c and "value" in c}
+    return {}
+
 
 headers = {
     'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
@@ -10,19 +26,12 @@ headers = {
     'Cache-Control': 'max-age=0',
     'Connection': 'keep-alive',
     'Referer': 'https://cn.bing.com/',
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0'
-}
-cookies = {
-    'cna': 'iPXsIv/e30ICAXs1fPIQXk11',
-    'HMF_CI': 'ee87bd7344039c8d265eca6c8a88ab3e6f8502e7fde49d6dff935f585c00e43946b905054021ec526198c23cb199c29466750973f7f3ccf0fc603eebb6957aa495',
-    'sca': '94dd4c40',
-    'HMY_JC': '7f72a18db48d17ea3be1c4f50ec39138ff76ee82a3d649da6431c2589ab54cd0d1,',
-    'HBB_HC': '7944b375fb08396d8b2758583d7d106e41004248999c56618ff5f69a3269055681ca0373dba19164283dd590babc17b6e1',
-    'atpsida': '9185062880b51ec5a830a34b_1787530164_5'
 }
 
+cookies = load_cookies(COOKIE_FILE)   # 模块加载时读取一次
+
+
 def parse_jsonp(text: str) -> Optional[dict]:
-    """解析JSONP格式的响应"""
     if not text or not text.strip():
         return None
     text = text.strip()
@@ -40,7 +49,6 @@ def parse_jsonp(text: str) -> Optional[dict]:
 
 
 def get_detail_data(data: dict) -> List[dict]:
-    """从API数据中提取新闻列表"""
     all_news = []
     news_list = data.get("data", {}).get("list", [])
     for news in news_list:
@@ -58,21 +66,17 @@ def get_detail_data(data: dict) -> List[dict]:
     return all_news
 
 
-class CctvSpider(scrapy.Spider):
+class CctvSpider(RedisSpider):
     name = "cctv"
+    redis_key = "cctv:start_urls"   # 显式声明种子 key（共享队列模式下仍保留 start() 生成种子）
     channels = ['news', 'china', 'world', 'society', 'law', 'ent', 'tech', 'life', 'edu']
     PAGE_SIZE = 1
 
     async def start(self):
-        """为每个频道生成初始请求
-
-        注意: Scrapy 2.13+ 已将爬虫入口从 start_requests() 改为 async def start(),
-        引擎只会调用 start(), 且要求它是异步生成器。
-        """
         self.logger.info("=" * 60)
         self.logger.info("央视爬虫启动！")
+        self.logger.info(f"已加载 cookies: {list(cookies.keys())}")
         self.logger.info("=" * 60)
-        self.logger.info("开始爬取央视新闻")
 
         for channel in self.channels:
             url = f"https://news.cctv.com/2019/07/gaiban/cmsdatainterface/page/{channel}_{self.PAGE_SIZE}.jsonp"
@@ -81,16 +85,14 @@ class CctvSpider(scrapy.Spider):
                 url,
                 meta={'channel': channel, 'page': self.PAGE_SIZE},
                 headers=headers,
-                cookies=cookies,
-                errback=self.handle_error
+                cookies=cookies,          # ← 从 JSON 读出来的字典
+                errback=self.handle_error,
             )
 
     def handle_error(self, failure):
-        """处理请求错误"""
         self.logger.error(f"请求失败: {failure.request.url if failure.request else '未知URL'}, 错误: {failure.value}")
 
     def parse(self, response):
-        """解析API响应，提取新闻数据"""
         channel = response.meta['channel']
         current_page = response.meta['page']
         self.logger.info(f"正在解析 {channel} 频道，第 {current_page} 页")
@@ -118,14 +120,13 @@ class CctvSpider(scrapy.Spider):
             item["来源"] = news["来源"]
             yield item
 
-        # 翻页逻辑
         if len(news_list) >= 20:
-            next_page = current_page + 1
-            next_url = f"https://news.cctv.com/2019/07/gaiban/cmsdatainterface/page/{channel}_{next_page}.jsonp"
-            self.logger.info(f"继续翻页: {channel} 频道，第 {next_page} 页")
-            yield scrapy.Request(
-                next_url,
-                meta={'channel': channel, 'page': next_page},
-                callback=self.parse,
-                errback=self.handle_error
-            )
+            return
+            # next_page = current_page + 1
+            # next_url = f"https://news.cctv.com/2019/07/gaiban/cmsdatainterface/page/{channel}_{next_page}.jsonp"
+            # self.logger.info(f"继续翻页: {channel} 频道，第 {next_page} 页")
+            # yield scrapy.Request(
+            #     next_url,
+            #     meta={'channel': channel, 'page': next_page},
+            #     callback=self.parse,
+            #     errback=self.handle_error)

@@ -1,9 +1,11 @@
 # scrapy_new/pipelines.py
 import json
 import os
+import hashlib
 from datetime import datetime
 from scrapy.exceptions import DropItem
 from utils_tool.path_tool import get_abs_path
+import redis
 
 
 class NewsPipeline:
@@ -11,12 +13,28 @@ class NewsPipeline:
 
     def __init__(self):
         self.file_dir = None
+        self.redis_client = None
 
     def open_spider(self, spider):
         """爬虫启动时初始化"""
+        # 1. 初始化存储目录
         self.file_dir = get_abs_path("data/news")
         os.makedirs(self.file_dir, exist_ok=True)
         spider.logger.info(f"数据存储目录: {self.file_dir}")
+
+        # 2. 初始化 Redis 连接（复用 settings 的 REDIS_URL，与调度队列/去重保持同一 db3）
+        try:
+            redis_url = spider.settings.get('REDIS_URL', 'redis://127.0.0.1:6379/3')
+            self.redis_client = redis.Redis.from_url(
+                redis_url,
+                decode_responses=True,
+                socket_connect_timeout=3
+            )
+            self.redis_client.ping()
+            spider.logger.info(f"Redis 去重已启用: {redis_url}")
+        except Exception as e:
+            self.redis_client = None
+            spider.logger.warning(f"Redis 连接失败，跳过去重: {e}")
 
     def process_item(self, item, spider):
         """处理每个Item"""
@@ -26,11 +44,12 @@ class NewsPipeline:
         # 2. 补充缺失字段
         item = self.fill_missing_fields(item)
 
-        # 3. 保存到JSON
-        self.save_to_json(item, spider)
-
-        # 4. 可选：保存到Redis
-        # self.save_to_redis(item, spider)
+        # 3. MD5 + Redis 去重
+        if not self.is_duplicate(item, spider):
+            # 4. 保存到 JSON
+            self.save_to_json(item, spider)
+        else:
+            raise DropItem(f"重复数据，跳过: {item.get('标题', '')[:30]}")
 
         return item
 
@@ -64,8 +83,44 @@ class NewsPipeline:
 
         return item
 
+    def is_duplicate(self, item, spider):
+        """
+        用 MD5 + Redis Set 判断是否重复
+        返回 True 表示重复，False 表示新数据
+        """
+        # 如果 Redis 没连上，跳过去重，直接放行
+        if not self.redis_client:
+            return False
+
+        url = item.get('详情链接', '')
+        title = item.get('标题', '')
+
+        url_md5 = hashlib.md5(url.encode('utf-8')).hexdigest() if url else None
+        title_md5 = hashlib.md5(title.encode('utf-8')).hexdigest() if title else None
+
+        # 先判断：任一已存在就是重复
+        if url_md5 and self.redis_client.sismember('news:url_md5', url_md5):
+            spider.logger.debug(f"URL 重复: {url}")
+            return True
+        if title_md5 and self.redis_client.sismember('news:title_md5', title_md5):
+            spider.logger.debug(f"标题重复: {title[:30]}...")
+            return True
+
+        # 都通过了，再一起写入 Redis
+        if url_md5:
+            self.redis_client.sadd('news:url_md5', url_md5)
+        if title_md5:
+            self.redis_client.sadd('news:title_md5', title_md5)
+
+        return False
+
     def save_to_json(self, item, spider):
-        """保存到JSON文件（增量合并）"""
+        """保存到JSON文件（增量合并）
+
+        分布式提示：当前为单机本地存储，多节点会把数据分散写到各自的 data/news 目录。
+        作为分布式基础先保留此方案；后续若多节点汇总，可将该目录挂为共享盘，
+        或改为写数据库（注意多节点并发写同一 JSON 文件的竞态问题）。
+        """
         # 确定文件名：来源_频道_日期.json
         source = item.get('来源', 'unknown')
         channel = item.get('频道', 'unknown')
@@ -79,45 +134,18 @@ class NewsPipeline:
             try:
                 with open(file_path, 'r', encoding='utf-8') as f:
                     existing_data = json.load(f)
-            except:
+            except Exception:
                 existing_data = []
 
-        # 去重（基于标题）
+        # 写入新数据（去重已在 is_duplicate 里做了）
         item_dict = dict(item)
-        existing_titles = {n.get('标题') for n in existing_data}
-
-        if item_dict.get('标题') not in existing_titles:
-            existing_data.append(item_dict)
-            with open(file_path, 'w', encoding='utf-8') as f:
-                json.dump(existing_data, f, ensure_ascii=False, indent=2)
-            spider.logger.debug(f"已保存: {item_dict.get('标题')[:30]}...")
-        else:
-            spider.logger.debug(f"已存在，跳过: {item_dict.get('标题')[:30]}...")
-
-    def save_to_redis(self, item, spider):
-        """可选：保存到Redis"""
-        try:
-            import redis
-            from scrapy_news import settings
-
-            redis_client = redis.Redis(
-                host=settings.REDIS_HOST,
-                port=settings.REDIS_PORT,
-                db=settings.REDIS_DB,
-                decode_responses=True
-            )
-
-            # 使用列表存储，便于后续消费
-            key = f"news:{item.get('来源', 'unknown')}"
-            redis_client.rpush(key, json.dumps(dict(item), ensure_ascii=False))
-        except Exception as e:
-            spider.logger.warning(f"Redis存储失败: {e}")
+        existing_data.append(item_dict)
+        with open(file_path, 'w', encoding='utf-8') as f:
+            json.dump(existing_data, f, ensure_ascii=False, indent=2)
+        spider.logger.debug(f"已保存: {item_dict.get('标题', '')[:30]}...")
 
     def close_spider(self, spider):
-        """爬虫结束时触发索引更新（可选）"""
-        spider.logger.info("爬虫结束，可在此触发RAG索引更新")
-
-
-        # vector = VectorStoreService()
-        # # 加载新闻文件 - 使用配置中的目录
-        # vector.load_news_from_directory()
+        """爬虫结束时关闭 Redis 连接"""
+        if self.redis_client:
+            self.redis_client.close()
+            spider.logger.info("Redis 连接已关闭")

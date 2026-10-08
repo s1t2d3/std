@@ -1,0 +1,256 @@
+2026-10-06 16:47:56,503 - agent - INFO - middleware.py:46 - [log_before_model]即将调用模型，带有1条消息
+2026-10-06 16:47:56,504 - agent - INFO - middleware.py:57 - [prompt_switch] 🔄 切换到系统提示词
+2026-10-06 16:47:58,122 - agent - INFO - middleware.py:46 - [log_before_model]即将调用模型，带有1条消息
+2026-10-06 16:47:58,122 - agent - INFO - middleware.py:57 - [prompt_switch] 🔄 切换到系统提示词
+2026-10-06 16:48:00,345 - agent - INFO - middleware.py:46 - [log_before_model]即将调用模型，带有1条消息
+2026-10-06 16:48:00,345 - agent - INFO - middleware.py:57 - [prompt_switch] 🔄 切换到系统提示词
+2026-10-06 16:48:02,188 - agent - INFO - middleware.py:46 - [log_before_model]即将调用模型，带有1条消息
+2026-10-06 16:48:02,189 - agent - INFO - middleware.py:57 - [prompt_switch] 🔄 切换到系统提示词
+2026-10-06 16:48:03,313 - agent - INFO - middleware.py:46 - [log_before_model]即将调用模型，带有1条消息
+2026-10-06 16:48:03,314 - agent - INFO - middleware.py:57 - [prompt_switch] 🔄 切换到系统提示词
+2026-10-06 16:56:42,443 - agent - INFO - middleware.py:46 - [log_before_model]即将调用模型，带有1条消息
+2026-10-06 16:56:42,443 - agent - INFO - middleware.py:57 - [prompt_switch] 🔄 切换到系统提示词
+2026-10-06 16:56:44,337 - agent - INFO - middleware.py:46 - [log_before_model]即将调用模型，带有1条消息
+2026-10-06 16:56:44,337 - agent - INFO - middleware.py:57 - [prompt_switch] 🔄 切换到系统提示词
+2026-10-06 16:56:45,852 - agent - INFO - middleware.py:46 - [log_before_model]即将调用模型，带有1条消息
+2026-10-06 16:56:45,853 - agent - INFO - middleware.py:57 - [prompt_switch] 🔄 切换到系统提示词
+2026-10-06 16:56:47,390 - agent - INFO - middleware.py:46 - [log_before_model]即将调用模型，带有1条消息
+2026-10-06 16:56:47,391 - agent - INFO - middleware.py:57 - [prompt_switch] 🔄 切换到系统提示词
+2026-10-06 16:56:48,823 - agent - INFO - middleware.py:46 - [log_before_model]即将调用模型，带有1条消息
+2026-10-06 16:56:48,824 - agent - INFO - middleware.py:57 - [prompt_switch] 🔄 切换到系统提示词
+2026-10-06 17:15:06,091 - agent - INFO - middleware.py:46 - [log_before_model]即将调用模型，带有1条消息
+2026-10-06 17:15:06,092 - agent - INFO - middleware.py:57 - [prompt_switch] 🔄 切换到系统提示词
+2026-10-06 17:15:07,689 - agent - INFO - middleware.py:46 - [log_before_model]即将调用模型，带有1条消息
+2026-10-06 17:15:07,689 - agent - INFO - middleware.py:57 - [prompt_switch] 🔄 切换到系统提示词
+2026-10-06 17:15:09,198 - agent - INFO - middleware.py:46 - [log_before_model]即将调用模型，带有1条消息
+2026-10-06 17:15:09,199 - agent - INFO - middleware.py:57 - [prompt_switch] 🔄 切换到系统提示词
+2026-10-06 17:15:11,621 - agent - INFO - middleware.py:29 - [tool monitor]执行工具: search_news_by_keyword
+2026-10-06 17:15:11,621 - agent - INFO - middleware.py:30 - [tool monitor]传入参数: {'keyword': '触发异常'}
+2026-10-06 17:15:13,666 - agent - ERROR - rag_service.py:330 - 搜索新闻失败: Failed to connect to Ollama. Please check that Ollama is downloaded, running and accessible. https://ollama.com/download
+Traceback (most recent call last):
+  File "D:\develop\PycharmProjects\AGENT项目\rag\rag_service.py", line 314, in search_news_by_keyword
+    docs = self.retriever.invoke(keyword)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\develop\PycharmProjects\PyrhonLearn\.venv\Lib\site-packages\langchain_core\retrievers.py", line 222, in invoke
+    result = self._get_relevant_documents(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\develop\PycharmProjects\PyrhonLearn\.venv\Lib\site-packages\langchain_core\vectorstores\base.py", line 1045, in _get_relevant_documents
+    docs = self.vectorstore.similarity_search(query, **kwargs_)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\develop\PycharmProjects\PyrhonLearn\.venv\Lib\site-packages\langchain_chroma\vectorstores.py", line 748, in similarity_search
+    docs_and_scores = self.similarity_search_with_score(
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\develop\PycharmProjects\PyrhonLearn\.venv\Lib\site-packages\langchain_chroma\vectorstores.py", line 848, in similarity_search_with_score
+    query_embedding = self._embedding_function.embed_query(query)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\develop\PycharmProjects\PyrhonLearn\.venv\Lib\site-packages\langchain_ollama\embeddings.py", line 335, in embed_query
+    return self.embed_documents([text])[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\develop\PycharmProjects\PyrhonLearn\.venv\Lib\site-packages\langchain_ollama\embeddings.py", line 325, in embed_documents
+    return self._client.embed(
+           ^^^^^^^^^^^^^^^^^^^
+  File "D:\develop\PycharmProjects\PyrhonLearn\.venv\Lib\site-packages\ollama\_client.py", line 415, in embed
+    return self._request(
+           ^^^^^^^^^^^^^^
+  File "D:\develop\PycharmProjects\PyrhonLearn\.venv\Lib\site-packages\ollama\_client.py", line 199, in _request
+    return cls(**self._request_raw(*args, **kwargs).json())
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\develop\PycharmProjects\PyrhonLearn\.venv\Lib\site-packages\ollama\_client.py", line 145, in _request_raw
+    raise ConnectionError(CONNECTION_ERROR_MESSAGE) from None
+ConnectionError: Failed to connect to Ollama. Please check that Ollama is downloaded, running and accessible. https://ollama.com/download
+2026-10-06 17:15:13,723 - agent - INFO - middleware.py:34 - [tool monitor]工具: search_news_by_keyword调用成功
+2026-10-06 17:15:13,724 - agent - INFO - middleware.py:46 - [log_before_model]即将调用模型，带有3条消息
+2026-10-06 17:15:13,724 - agent - INFO - middleware.py:57 - [prompt_switch] 🔄 切换到系统提示词
+2026-10-06 17:15:15,630 - agent - INFO - middleware.py:46 - [log_before_model]即将调用模型，带有1条消息
+2026-10-06 17:15:15,630 - agent - INFO - middleware.py:57 - [prompt_switch] 🔄 切换到系统提示词
+2026-10-06 17:15:17,531 - agent - INFO - middleware.py:46 - [log_before_model]即将调用模型，带有1条消息
+2026-10-06 17:15:17,531 - agent - INFO - middleware.py:57 - [prompt_switch] 🔄 切换到系统提示词
+2026-10-06 17:24:32,242 - agent - INFO - middleware.py:46 - [log_before_model]即将调用模型，带有1条消息
+2026-10-06 17:24:32,242 - agent - INFO - middleware.py:57 - [prompt_switch] 🔄 切换到系统提示词
+2026-10-06 17:24:33,738 - agent - INFO - middleware.py:46 - [log_before_model]即将调用模型，带有1条消息
+2026-10-06 17:24:33,739 - agent - INFO - middleware.py:57 - [prompt_switch] 🔄 切换到系统提示词
+2026-10-06 17:24:35,339 - agent - INFO - middleware.py:46 - [log_before_model]即将调用模型，带有1条消息
+2026-10-06 17:24:35,339 - agent - INFO - middleware.py:57 - [prompt_switch] 🔄 切换到系统提示词
+2026-10-06 17:24:38,618 - agent - INFO - middleware.py:46 - [log_before_model]即将调用模型，带有1条消息
+2026-10-06 17:24:38,618 - agent - INFO - middleware.py:57 - [prompt_switch] 🔄 切换到系统提示词
+2026-10-06 17:24:39,843 - agent - INFO - middleware.py:46 - [log_before_model]即将调用模型，带有1条消息
+2026-10-06 17:24:39,843 - agent - INFO - middleware.py:57 - [prompt_switch] 🔄 切换到系统提示词
+2026-10-06 17:29:08,171 - agent - INFO - middleware.py:46 - [log_before_model]即将调用模型，带有1条消息
+2026-10-06 17:29:08,171 - agent - INFO - middleware.py:57 - [prompt_switch] 🔄 切换到系统提示词
+2026-10-06 17:29:09,781 - agent - INFO - middleware.py:46 - [log_before_model]即将调用模型，带有1条消息
+2026-10-06 17:29:09,781 - agent - INFO - middleware.py:57 - [prompt_switch] 🔄 切换到系统提示词
+2026-10-06 17:29:11,199 - agent - INFO - middleware.py:46 - [log_before_model]即将调用模型，带有1条消息
+2026-10-06 17:29:11,200 - agent - INFO - middleware.py:57 - [prompt_switch] 🔄 切换到系统提示词
+2026-10-06 17:29:12,643 - agent - INFO - middleware.py:46 - [log_before_model]即将调用模型，带有1条消息
+2026-10-06 17:29:12,644 - agent - INFO - middleware.py:57 - [prompt_switch] 🔄 切换到系统提示词
+2026-10-06 17:29:13,725 - agent - INFO - middleware.py:46 - [log_before_model]即将调用模型，带有1条消息
+2026-10-06 17:29:13,725 - agent - INFO - middleware.py:57 - [prompt_switch] 🔄 切换到系统提示词
+2026-10-06 17:37:38,633 - agent - INFO - middleware.py:46 - [log_before_model]即将调用模型，带有1条消息
+2026-10-06 17:37:38,634 - agent - INFO - middleware.py:57 - [prompt_switch] 🔄 切换到系统提示词
+2026-10-06 17:37:40,960 - agent - INFO - middleware.py:46 - [log_before_model]即将调用模型，带有1条消息
+2026-10-06 17:37:40,961 - agent - INFO - middleware.py:57 - [prompt_switch] 🔄 切换到系统提示词
+2026-10-06 17:37:41,964 - agent - INFO - middleware.py:46 - [log_before_model]即将调用模型，带有1条消息
+2026-10-06 17:37:41,966 - agent - INFO - middleware.py:57 - [prompt_switch] 🔄 切换到系统提示词
+2026-10-06 17:37:43,501 - agent - INFO - middleware.py:46 - [log_before_model]即将调用模型，带有1条消息
+2026-10-06 17:37:43,501 - agent - INFO - middleware.py:57 - [prompt_switch] 🔄 切换到系统提示词
+2026-10-06 17:37:44,728 - agent - INFO - middleware.py:46 - [log_before_model]即将调用模型，带有1条消息
+2026-10-06 17:37:44,728 - agent - INFO - middleware.py:57 - [prompt_switch] 🔄 切换到系统提示词
+2026-10-06 17:43:52,884 - agent - INFO - middleware.py:46 - [log_before_model]即将调用模型，带有1条消息
+2026-10-06 17:43:52,884 - agent - INFO - middleware.py:57 - [prompt_switch] 🔄 切换到系统提示词
+2026-10-06 17:43:54,504 - agent - INFO - middleware.py:46 - [log_before_model]即将调用模型，带有1条消息
+2026-10-06 17:43:54,505 - agent - INFO - middleware.py:57 - [prompt_switch] 🔄 切换到系统提示词
+2026-10-06 17:43:56,027 - agent - INFO - middleware.py:46 - [log_before_model]即将调用模型，带有1条消息
+2026-10-06 17:43:56,027 - agent - INFO - middleware.py:57 - [prompt_switch] 🔄 切换到系统提示词
+2026-10-06 17:43:58,280 - agent - INFO - middleware.py:46 - [log_before_model]即将调用模型，带有1条消息
+2026-10-06 17:43:58,281 - agent - INFO - middleware.py:57 - [prompt_switch] 🔄 切换到系统提示词
+2026-10-06 17:43:59,522 - agent - INFO - middleware.py:46 - [log_before_model]即将调用模型，带有1条消息
+2026-10-06 17:43:59,522 - agent - INFO - middleware.py:57 - [prompt_switch] 🔄 切换到系统提示词
+2026-10-06 17:47:14,532 - agent - INFO - middleware.py:46 - [log_before_model]即将调用模型，带有1条消息
+2026-10-06 17:47:14,532 - agent - INFO - middleware.py:57 - [prompt_switch] 🔄 切换到系统提示词
+2026-10-06 17:47:16,230 - agent - INFO - middleware.py:46 - [log_before_model]即将调用模型，带有1条消息
+2026-10-06 17:47:16,231 - agent - INFO - middleware.py:57 - [prompt_switch] 🔄 切换到系统提示词
+2026-10-06 17:47:17,929 - agent - INFO - middleware.py:46 - [log_before_model]即将调用模型，带有1条消息
+2026-10-06 17:47:17,929 - agent - INFO - middleware.py:57 - [prompt_switch] 🔄 切换到系统提示词
+2026-10-06 17:47:20,414 - agent - INFO - middleware.py:46 - [log_before_model]即将调用模型，带有1条消息
+2026-10-06 17:47:20,415 - agent - INFO - middleware.py:57 - [prompt_switch] 🔄 切换到系统提示词
+2026-10-06 17:47:21,743 - agent - INFO - middleware.py:46 - [log_before_model]即将调用模型，带有1条消息
+2026-10-06 17:47:21,743 - agent - INFO - middleware.py:57 - [prompt_switch] 🔄 切换到系统提示词
+2026-10-06 17:54:41,156 - agent - INFO - middleware.py:46 - [log_before_model]即将调用模型，带有1条消息
+2026-10-06 17:54:41,157 - agent - INFO - middleware.py:57 - [prompt_switch] 🔄 切换到系统提示词
+2026-10-06 17:54:42,958 - agent - INFO - middleware.py:46 - [log_before_model]即将调用模型，带有1条消息
+2026-10-06 17:54:42,958 - agent - INFO - middleware.py:57 - [prompt_switch] 🔄 切换到系统提示词
+2026-10-06 17:54:44,207 - agent - INFO - middleware.py:46 - [log_before_model]即将调用模型，带有1条消息
+2026-10-06 17:54:44,207 - agent - INFO - middleware.py:57 - [prompt_switch] 🔄 切换到系统提示词
+2026-10-06 17:54:46,361 - agent - INFO - middleware.py:46 - [log_before_model]即将调用模型，带有1条消息
+2026-10-06 17:54:46,361 - agent - INFO - middleware.py:57 - [prompt_switch] 🔄 切换到系统提示词
+2026-10-06 17:54:47,790 - agent - INFO - middleware.py:46 - [log_before_model]即将调用模型，带有1条消息
+2026-10-06 17:54:47,791 - agent - INFO - middleware.py:57 - [prompt_switch] 🔄 切换到系统提示词
+2026-10-06 17:57:16,849 - agent - INFO - middleware.py:46 - [log_before_model]即将调用模型，带有1条消息
+2026-10-06 17:57:16,850 - agent - INFO - middleware.py:57 - [prompt_switch] 🔄 切换到系统提示词
+2026-10-06 17:57:18,279 - agent - INFO - middleware.py:46 - [log_before_model]即将调用模型，带有1条消息
+2026-10-06 17:57:18,280 - agent - INFO - middleware.py:57 - [prompt_switch] 🔄 切换到系统提示词
+2026-10-06 17:57:19,851 - agent - INFO - middleware.py:46 - [log_before_model]即将调用模型，带有1条消息
+2026-10-06 17:57:19,851 - agent - INFO - middleware.py:57 - [prompt_switch] 🔄 切换到系统提示词
+2026-10-06 17:57:21,682 - agent - INFO - middleware.py:29 - [tool monitor]执行工具: search_news_by_keyword
+2026-10-06 17:57:21,682 - agent - INFO - middleware.py:30 - [tool monitor]传入参数: {'keyword': '触发异常'}
+2026-10-06 17:57:23,698 - agent - ERROR - rag_service.py:330 - 搜索新闻失败: Failed to connect to Ollama. Please check that Ollama is downloaded, running and accessible. https://ollama.com/download
+Traceback (most recent call last):
+  File "D:\develop\PycharmProjects\AGENT项目\rag\rag_service.py", line 314, in search_news_by_keyword
+    docs = self.retriever.invoke(keyword)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\develop\PycharmProjects\PyrhonLearn\.venv\Lib\site-packages\langchain_core\retrievers.py", line 222, in invoke
+    result = self._get_relevant_documents(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\develop\PycharmProjects\PyrhonLearn\.venv\Lib\site-packages\langchain_core\vectorstores\base.py", line 1045, in _get_relevant_documents
+    docs = self.vectorstore.similarity_search(query, **kwargs_)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\develop\PycharmProjects\PyrhonLearn\.venv\Lib\site-packages\langchain_chroma\vectorstores.py", line 748, in similarity_search
+    docs_and_scores = self.similarity_search_with_score(
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\develop\PycharmProjects\PyrhonLearn\.venv\Lib\site-packages\langchain_chroma\vectorstores.py", line 848, in similarity_search_with_score
+    query_embedding = self._embedding_function.embed_query(query)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\develop\PycharmProjects\PyrhonLearn\.venv\Lib\site-packages\langchain_ollama\embeddings.py", line 335, in embed_query
+    return self.embed_documents([text])[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\develop\PycharmProjects\PyrhonLearn\.venv\Lib\site-packages\langchain_ollama\embeddings.py", line 325, in embed_documents
+    return self._client.embed(
+           ^^^^^^^^^^^^^^^^^^^
+  File "D:\develop\PycharmProjects\PyrhonLearn\.venv\Lib\site-packages\ollama\_client.py", line 415, in embed
+    return self._request(
+           ^^^^^^^^^^^^^^
+  File "D:\develop\PycharmProjects\PyrhonLearn\.venv\Lib\site-packages\ollama\_client.py", line 199, in _request
+    return cls(**self._request_raw(*args, **kwargs).json())
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\develop\PycharmProjects\PyrhonLearn\.venv\Lib\site-packages\ollama\_client.py", line 145, in _request_raw
+    raise ConnectionError(CONNECTION_ERROR_MESSAGE) from None
+ConnectionError: Failed to connect to Ollama. Please check that Ollama is downloaded, running and accessible. https://ollama.com/download
+2026-10-06 17:57:23,700 - agent - INFO - middleware.py:34 - [tool monitor]工具: search_news_by_keyword调用成功
+2026-10-06 17:57:23,700 - agent - INFO - middleware.py:46 - [log_before_model]即将调用模型，带有3条消息
+2026-10-06 17:57:23,702 - agent - INFO - middleware.py:57 - [prompt_switch] 🔄 切换到系统提示词
+2026-10-06 17:57:24,754 - agent - INFO - middleware.py:29 - [tool monitor]执行工具: search_news_by_keyword
+2026-10-06 17:57:24,754 - agent - INFO - middleware.py:30 - [tool monitor]传入参数: {'keyword': '异常'}
+2026-10-06 17:57:26,788 - agent - ERROR - rag_service.py:330 - 搜索新闻失败: Failed to connect to Ollama. Please check that Ollama is downloaded, running and accessible. https://ollama.com/download
+Traceback (most recent call last):
+  File "D:\develop\PycharmProjects\AGENT项目\rag\rag_service.py", line 314, in search_news_by_keyword
+    docs = self.retriever.invoke(keyword)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\develop\PycharmProjects\PyrhonLearn\.venv\Lib\site-packages\langchain_core\retrievers.py", line 222, in invoke
+    result = self._get_relevant_documents(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\develop\PycharmProjects\PyrhonLearn\.venv\Lib\site-packages\langchain_core\vectorstores\base.py", line 1045, in _get_relevant_documents
+    docs = self.vectorstore.similarity_search(query, **kwargs_)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\develop\PycharmProjects\PyrhonLearn\.venv\Lib\site-packages\langchain_chroma\vectorstores.py", line 748, in similarity_search
+    docs_and_scores = self.similarity_search_with_score(
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\develop\PycharmProjects\PyrhonLearn\.venv\Lib\site-packages\langchain_chroma\vectorstores.py", line 848, in similarity_search_with_score
+    query_embedding = self._embedding_function.embed_query(query)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\develop\PycharmProjects\PyrhonLearn\.venv\Lib\site-packages\langchain_ollama\embeddings.py", line 335, in embed_query
+    return self.embed_documents([text])[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\develop\PycharmProjects\PyrhonLearn\.venv\Lib\site-packages\langchain_ollama\embeddings.py", line 325, in embed_documents
+    return self._client.embed(
+           ^^^^^^^^^^^^^^^^^^^
+  File "D:\develop\PycharmProjects\PyrhonLearn\.venv\Lib\site-packages\ollama\_client.py", line 415, in embed
+    return self._request(
+           ^^^^^^^^^^^^^^
+  File "D:\develop\PycharmProjects\PyrhonLearn\.venv\Lib\site-packages\ollama\_client.py", line 199, in _request
+    return cls(**self._request_raw(*args, **kwargs).json())
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\develop\PycharmProjects\PyrhonLearn\.venv\Lib\site-packages\ollama\_client.py", line 145, in _request_raw
+    raise ConnectionError(CONNECTION_ERROR_MESSAGE) from None
+ConnectionError: Failed to connect to Ollama. Please check that Ollama is downloaded, running and accessible. https://ollama.com/download
+2026-10-06 17:57:26,791 - agent - INFO - middleware.py:34 - [tool monitor]工具: search_news_by_keyword调用成功
+2026-10-06 17:57:26,792 - agent - INFO - middleware.py:46 - [log_before_model]即将调用模型，带有5条消息
+2026-10-06 17:57:26,792 - agent - INFO - middleware.py:57 - [prompt_switch] 🔄 切换到系统提示词
+2026-10-06 17:57:28,543 - agent - INFO - middleware.py:29 - [tool monitor]执行工具: rag_summarize
+2026-10-06 17:57:28,543 - agent - INFO - middleware.py:30 - [tool monitor]传入参数: {'query': '触发异常 相关新闻'}
+2026-10-06 17:57:30,554 - agent - ERROR - rag_service.py:283 - 新闻问答失败: Failed to connect to Ollama. Please check that Ollama is downloaded, running and accessible. https://ollama.com/download
+Traceback (most recent call last):
+  File "D:\develop\PycharmProjects\AGENT项目\rag\rag_service.py", line 266, in get_news_answer
+    context_docs = self.retriever.invoke(query)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\develop\PycharmProjects\PyrhonLearn\.venv\Lib\site-packages\langchain_core\retrievers.py", line 222, in invoke
+    result = self._get_relevant_documents(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\develop\PycharmProjects\PyrhonLearn\.venv\Lib\site-packages\langchain_core\vectorstores\base.py", line 1045, in _get_relevant_documents
+    docs = self.vectorstore.similarity_search(query, **kwargs_)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\develop\PycharmProjects\PyrhonLearn\.venv\Lib\site-packages\langchain_chroma\vectorstores.py", line 748, in similarity_search
+    docs_and_scores = self.similarity_search_with_score(
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\develop\PycharmProjects\PyrhonLearn\.venv\Lib\site-packages\langchain_chroma\vectorstores.py", line 848, in similarity_search_with_score
+    query_embedding = self._embedding_function.embed_query(query)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\develop\PycharmProjects\PyrhonLearn\.venv\Lib\site-packages\langchain_ollama\embeddings.py", line 335, in embed_query
+    return self.embed_documents([text])[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\develop\PycharmProjects\PyrhonLearn\.venv\Lib\site-packages\langchain_ollama\embeddings.py", line 325, in embed_documents
+    return self._client.embed(
+           ^^^^^^^^^^^^^^^^^^^
+  File "D:\develop\PycharmProjects\PyrhonLearn\.venv\Lib\site-packages\ollama\_client.py", line 415, in embed
+    return self._request(
+           ^^^^^^^^^^^^^^
+  File "D:\develop\PycharmProjects\PyrhonLearn\.venv\Lib\site-packages\ollama\_client.py", line 199, in _request
+    return cls(**self._request_raw(*args, **kwargs).json())
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\develop\PycharmProjects\PyrhonLearn\.venv\Lib\site-packages\ollama\_client.py", line 145, in _request_raw
+    raise ConnectionError(CONNECTION_ERROR_MESSAGE) from None
+ConnectionError: Failed to connect to Ollama. Please check that Ollama is downloaded, running and accessible. https://ollama.com/download
+2026-10-06 17:57:30,559 - agent - INFO - middleware.py:34 - [tool monitor]工具: rag_summarize调用成功
+2026-10-06 17:57:30,560 - agent - INFO - middleware.py:46 - [log_before_model]即将调用模型，带有7条消息
+2026-10-06 17:57:30,560 - agent - INFO - middleware.py:57 - [prompt_switch] 🔄 切换到系统提示词
+2026-10-06 17:57:32,455 - agent - INFO - middleware.py:46 - [log_before_model]即将调用模型，带有1条消息
+2026-10-06 17:57:32,455 - agent - INFO - middleware.py:57 - [prompt_switch] 🔄 切换到系统提示词
+2026-10-06 17:57:33,494 - agent - INFO - middleware.py:46 - [log_before_model]即将调用模型，带有1条消息
+2026-10-06 17:57:33,495 - agent - INFO - middleware.py:57 - [prompt_switch] 🔄 切换到系统提示词
+2026-10-06 18:04:04,818 - agent - INFO - middleware.py:46 - [log_before_model]即将调用模型，带有1条消息
+2026-10-06 18:04:04,818 - agent - INFO - middleware.py:57 - [prompt_switch] 🔄 切换到系统提示词
+2026-10-06 18:04:06,706 - agent - INFO - middleware.py:46 - [log_before_model]即将调用模型，带有1条消息
+2026-10-06 18:04:06,707 - agent - INFO - middleware.py:57 - [prompt_switch] 🔄 切换到系统提示词
+2026-10-06 18:04:08,536 - agent - INFO - middleware.py:46 - [log_before_model]即将调用模型，带有1条消息
+2026-10-06 18:04:08,536 - agent - INFO - middleware.py:57 - [prompt_switch] 🔄 切换到系统提示词
+2026-10-06 18:04:09,957 - agent - INFO - middleware.py:46 - [log_before_model]即将调用模型，带有1条消息
+2026-10-06 18:04:09,958 - agent - INFO - middleware.py:57 - [prompt_switch] 🔄 切换到系统提示词

@@ -28,8 +28,6 @@ Python / LangChain / ChromaDB / aiohttp / requests / Celery / Redis / Flask
 ```
 std/
 ├── agent/              # Agent 核心逻辑
-├── cctv_new/           # 央视新闻爬虫
-├── pengpai_new/        # 澎湃新闻爬虫
 ├── celery_test/        # Celery 任务配置
 ├── chrom_db/           # 向量数据库
 ├── config/             # 配置文件
@@ -38,6 +36,7 @@ std/
 ├── model/              # 数据模型
 ├── prompts/            # 提示词模板
 ├── rag/                # RAG 检索组件
+├── scrapy_news/        # scrapy爬取新闻
 ├── static/             # 静态资源
 ├── templates/          # HTML 模板
 ├── utils/              # 工具函数

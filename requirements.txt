@@ -14,3 +14,5 @@ protobuf==7.36.1
 pyOpenSSL==26.4.0
 PyYAML==6.0.3
 redis==8.1.0
+Scrapy==2.18.0
+scrapy-redis==0.9.1

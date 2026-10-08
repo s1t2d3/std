@@ -1,12 +1,28 @@
 # spiders/pengpai_spider.py
 import json
 import time
+import os
 import scrapy
 from scrapy_news.items import NewsItem
+from scrapy_redis.spiders import RedisSpider
 
-# ========================================
-# 提取标签
-# ========================================
+
+COOKIE_FILE = "cookies_data/pengpai_cookies.json"
+
+
+def load_cookies(path: str) -> dict:
+    """从浏览器导出的 JSON 读取 cookies，返回 {name: value} 字典"""
+    if not os.path.exists(path):
+        return {}
+    with open(path, "r", encoding="utf-8") as f:
+        data = json.load(f)
+    if isinstance(data, dict):
+        return data
+    if isinstance(data, list):
+        return {c["name"]: c["value"] for c in data if "name" in c and "value" in c}
+    return {}
+
+
 def extract_tags(tag_list):
     """从 tagList 中提取标签，用逗号分隔"""
     if not tag_list:
@@ -18,11 +34,13 @@ def extract_tags(tag_list):
             tags.append(tag_name)
     return ",".join(tags)
 
-# ========================================
-# 获取详情数据 - 直接返回统一格式
-# ========================================
-def get_detail_data(data, page, seen, channel):
-    """解析数据，直接返回与央视新闻格式一致的列表"""
+
+def get_detail_data(data, page, channel):
+    """解析数据，直接返回与央视新闻格式一致的列表
+
+    分布式说明：不再使用实例级 seen 集合（多节点/多进程间不共享，形同虚设），
+    去重统一交给 RFPDupeFilter（请求级）+ Pipeline 的 Redis MD5（item 级）。
+    """
     all_list = []
     start_time = int(time.time() * 1000)
 
@@ -30,8 +48,7 @@ def get_detail_data(data, page, seen, channel):
     top_content = data.get("data", {}).get("topContent")
     if top_content:
         cont_id = top_content.get("contId")
-        if cont_id and cont_id not in seen:
-            seen.add(cont_id)
+        if cont_id:
             tag_list = top_content.get("tagList", [])
             tag_str = extract_tags(tag_list)
 
@@ -56,8 +73,7 @@ def get_detail_data(data, page, seen, channel):
 
     for new in news_list:
         cont_id = new.get("contId")
-        if cont_id and cont_id not in seen:
-            seen.add(cont_id)
+        if cont_id:
             tag_list = new.get("tagList", [])
             tag_str = extract_tags(tag_list)
 
@@ -81,11 +97,12 @@ def get_detail_data(data, page, seen, channel):
     return all_list, start_time
 
 
-class PengpaiSpider(scrapy.Spider):
+class PengpaiSpider(RedisSpider):
     name = "pengpai"
+    redis_key = "pengpai:start_urls"   # 共享队列模式下显式声明种子 key
 
-    # ========== 最大翻页数 ==========
-    MAX_PAGES = 2  # 每个频道最多爬取 2 页
+    # ========== 最大翻页数（每个频道最多爬取的页数）==========
+    MAX_PAGES = 1
 
     # ========== 只有这个爬虫生效的配置 ==========
     custom_settings = {
@@ -99,16 +116,15 @@ class PengpaiSpider(scrapy.Spider):
             'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0',
         },
         'COOKIES_ENABLED': True,
-        'COOKIES': {
-            '_c_WBKFRo': 'bAXPhJB1QGeO7nsWA4rEscPL2SJyMrGF39CyBzDg',
-            'Hm_lvt_94a1e06bbce219d29285cee2e37d1d26': '1786165724,1786688887,1786755543',
-            'HMACCOUNT': '62BD216B7B90239C',
-            'Hm_lpvt_94a1e06bbce219d29285cee2e37d1d26': '1786755791',
-            'ariaDefaultTheme': 'undefined',
-        },
+        # 'COOKIES': {...}  已删除硬编码，改为从 JSON 动态加载
         'DOWNLOAD_DELAY': 1,
         'CONCURRENT_REQUESTS': 5,
     }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.cookies = load_cookies(COOKIE_FILE)
+        self.logger.info(f"已加载 cookies: {list(self.cookies.keys())}")
 
     async def start(self):
         """获取频道列表，然后为每个频道生成请求"""
@@ -119,6 +135,7 @@ class PengpaiSpider(scrapy.Spider):
 
         yield scrapy.Request(
             url='https://cache.thepaper.cn/contentapi/node/getWwwAllNodes',
+            cookies=self.cookies,
             callback=self.parse_channels,
         )
 
@@ -147,6 +164,7 @@ class PengpaiSpider(scrapy.Spider):
                 url=url,
                 method='POST',
                 headers={'Content-Type': 'application/json'},
+                cookies=self.cookies,
                 body=json.dumps({
                     "channelId": channel_id,
                     'pageSize': 20,
@@ -174,9 +192,9 @@ class PengpaiSpider(scrapy.Spider):
 
         data = response.json()
 
-        news_list, start_time = get_detail_data(data, current_page, set(), channel)
+        news_list, start_time = get_detail_data(data, current_page, channel)
 
-        # 生成Item
+        # 生成 Item
         for news in news_list:
             item = NewsItem()
             item['标题'] = news['标题']
@@ -210,6 +228,7 @@ class PengpaiSpider(scrapy.Spider):
                 url=url,
                 method='POST',
                 headers={'Content-Type': 'application/json'},
+                cookies=self.cookies,
                 body=json.dumps({
                     "channelId": channel_id,
                     'pageSize': 20,

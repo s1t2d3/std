@@ -1,0 +1,70 @@
+[
+  {
+    "domain": ".cctv.com",
+    "expiry": 1823928407,
+    "httpOnly": false,
+    "name": "cna",
+    "path": "/",
+    "sameSite": "Lax",
+    "secure": false,
+    "value": "VoYuI9685SECASpQo2fFB+m0"
+  },
+  {
+    "domain": "www.cctv.com",
+    "expiry": 1789369005,
+    "httpOnly": false,
+    "name": "HBB_HC",
+    "path": "/",
+    "sameSite": "Lax",
+    "secure": false,
+    "value": "343b3c7ae5f30b0f29558e705cdfd99f4eca1e01508c5933ac4e2f2bb2ca95393033d10c6826f14b331aba79fd5a500dbf"
+  },
+  {
+    "domain": "www.cctv.com",
+    "expiry": 1791960405,
+    "httpOnly": false,
+    "name": "HMF_CI",
+    "path": "/",
+    "sameSite": "Lax",
+    "secure": false,
+    "value": "ee98b784406b58d69bfc8b58c67f8c622aaacdf15ff03cff01539d66e68897336f0595bdaaea59371c58af212aee7ffb205550215858f019b5da251b0a260b32f7"
+  },
+  {
+    "domain": "www.cctv.com",
+    "expiry": 1789390006,
+    "httpOnly": false,
+    "name": "country_code",
+    "path": "/",
+    "sameSite": "Lax",
+    "secure": false,
+    "value": "CN"
+  },
+  {
+    "domain": ".cctv.com",
+    "httpOnly": false,
+    "name": "sca",
+    "path": "/",
+    "sameSite": "None",
+    "secure": true,
+    "value": "7102138c"
+  },
+  {
+    "domain": ".cctv.com",
+    "httpOnly": false,
+    "name": "atpsida",
+    "path": "/",
+    "sameSite": "None",
+    "secure": true,
+    "value": "b7135d3fe141b768c1244778_1789368407_3"
+  },
+  {
+    "domain": "www.cctv.com",
+    "expiry": 1820904404,
+    "httpOnly": false,
+    "name": "HOY_TR",
+    "path": "/",
+    "sameSite": "Lax",
+    "secure": false,
+    "value": "GCMQSYRAHUJBVWDZ,A478BD9EFC201356,Jfhwjmucivrtnbea,0"
+  }
+]

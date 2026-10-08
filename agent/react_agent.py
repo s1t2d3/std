@@ -23,6 +23,9 @@ class ReactAgent:
         )
 
     def execute_stream(self, query):
+        if query == "触发异常":
+            raise Exception("测试异常")
+
         input_dict = {
             "messages": [
                 {"role": "user", "content": query}

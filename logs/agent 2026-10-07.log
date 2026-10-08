@@ -1,0 +1,40 @@
+2026-10-07 18:15:09,424 - agent - INFO - middleware.py:46 - [log_before_model]即将调用模型，带有1条消息
+2026-10-07 18:15:09,424 - agent - INFO - middleware.py:57 - [prompt_switch] 🔄 切换到系统提示词
+2026-10-07 18:15:11,239 - agent - INFO - middleware.py:46 - [log_before_model]即将调用模型，带有1条消息
+2026-10-07 18:15:11,239 - agent - INFO - middleware.py:57 - [prompt_switch] 🔄 切换到系统提示词
+2026-10-07 18:15:12,657 - agent - INFO - middleware.py:46 - [log_before_model]即将调用模型，带有1条消息
+2026-10-07 18:15:12,657 - agent - INFO - middleware.py:57 - [prompt_switch] 🔄 切换到系统提示词
+2026-10-07 18:15:13,826 - agent - INFO - middleware.py:46 - [log_before_model]即将调用模型，带有1条消息
+2026-10-07 18:15:13,826 - agent - INFO - middleware.py:57 - [prompt_switch] 🔄 切换到系统提示词
+2026-10-07 18:25:22,684 - agent - INFO - middleware.py:46 - [log_before_model]即将调用模型，带有1条消息
+2026-10-07 18:25:22,684 - agent - INFO - middleware.py:57 - [prompt_switch] 🔄 切换到系统提示词
+2026-10-07 18:25:23,981 - agent - INFO - middleware.py:46 - [log_before_model]即将调用模型，带有1条消息
+2026-10-07 18:25:23,981 - agent - INFO - middleware.py:57 - [prompt_switch] 🔄 切换到系统提示词
+2026-10-07 18:25:25,819 - agent - INFO - middleware.py:46 - [log_before_model]即将调用模型，带有1条消息
+2026-10-07 18:25:25,820 - agent - INFO - middleware.py:57 - [prompt_switch] 🔄 切换到系统提示词
+2026-10-07 18:25:27,138 - agent - INFO - middleware.py:46 - [log_before_model]即将调用模型，带有1条消息
+2026-10-07 18:25:27,138 - agent - INFO - middleware.py:57 - [prompt_switch] 🔄 切换到系统提示词
+2026-10-07 19:10:14,705 - agent - INFO - middleware.py:46 - [log_before_model]即将调用模型，带有1条消息
+2026-10-07 19:10:14,705 - agent - INFO - middleware.py:57 - [prompt_switch] 🔄 切换到系统提示词
+2026-10-07 19:10:19,621 - agent - INFO - middleware.py:46 - [log_before_model]即将调用模型，带有1条消息
+2026-10-07 19:10:19,621 - agent - INFO - middleware.py:57 - [prompt_switch] 🔄 切换到系统提示词
+2026-10-07 19:10:23,692 - agent - INFO - middleware.py:46 - [log_before_model]即将调用模型，带有1条消息
+2026-10-07 19:10:23,692 - agent - INFO - middleware.py:57 - [prompt_switch] 🔄 切换到系统提示词
+2026-10-07 19:10:26,352 - agent - INFO - middleware.py:46 - [log_before_model]即将调用模型，带有1条消息
+2026-10-07 19:10:26,352 - agent - INFO - middleware.py:57 - [prompt_switch] 🔄 切换到系统提示词
+2026-10-07 21:20:53,002 - agent - INFO - middleware.py:46 - [log_before_model]即将调用模型，带有1条消息
+2026-10-07 21:20:53,002 - agent - INFO - middleware.py:57 - [prompt_switch] 🔄 切换到系统提示词
+2026-10-07 21:21:01,794 - agent - INFO - middleware.py:46 - [log_before_model]即将调用模型，带有1条消息
+2026-10-07 21:21:01,794 - agent - INFO - middleware.py:57 - [prompt_switch] 🔄 切换到系统提示词
+2026-10-07 21:21:08,656 - agent - INFO - middleware.py:46 - [log_before_model]即将调用模型，带有1条消息
+2026-10-07 21:21:08,656 - agent - INFO - middleware.py:57 - [prompt_switch] 🔄 切换到系统提示词
+2026-10-07 21:21:15,002 - agent - INFO - middleware.py:46 - [log_before_model]即将调用模型，带有1条消息
+2026-10-07 21:21:15,002 - agent - INFO - middleware.py:57 - [prompt_switch] 🔄 切换到系统提示词
+2026-10-07 21:23:51,734 - agent - INFO - middleware.py:46 - [log_before_model]即将调用模型，带有1条消息
+2026-10-07 21:23:51,734 - agent - INFO - middleware.py:57 - [prompt_switch] 🔄 切换到系统提示词
+2026-10-07 21:23:55,690 - agent - INFO - middleware.py:46 - [log_before_model]即将调用模型，带有1条消息
+2026-10-07 21:23:55,691 - agent - INFO - middleware.py:57 - [prompt_switch] 🔄 切换到系统提示词
+2026-10-07 21:23:59,261 - agent - INFO - middleware.py:46 - [log_before_model]即将调用模型，带有1条消息
+2026-10-07 21:23:59,261 - agent - INFO - middleware.py:57 - [prompt_switch] 🔄 切换到系统提示词
+2026-10-07 21:24:03,362 - agent - INFO - middleware.py:46 - [log_before_model]即将调用模型，带有1条消息
+2026-10-07 21:24:03,363 - agent - INFO - middleware.py:57 - [prompt_switch] 🔄 切换到系统提示词

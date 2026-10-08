@@ -8,6 +8,7 @@ import uuid
 import logging
 
 from agent.react_agent import ReactAgent
+from sql.sql_tools import SQLTools
 
 # ---------- 配置 ----------
 app = Flask(__name__)
@@ -15,11 +16,10 @@ app.config['SECRET_KEY'] = 'your-secret-key-change-in-production-123456'
 app.config['SESSION_COOKIE_HTTPONLY'] = True
 app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=7)
+app.json.ensure_ascii = False
 
-# 允许跨域（如果需要）
 CORS(app, supports_credentials=True)
 
-# 日志配置
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
@@ -27,15 +27,16 @@ logger = logging.getLogger(__name__)
 USER_DB_FILE = "user_data/users.json"
 SESSION_DATA_DIR = "session_data"
 
+# 创建数据库实例
+db = SQLTools()
+
 
 def ensure_directories():
-    """确保必要的目录存在"""
     os.makedirs(os.path.dirname(USER_DB_FILE), exist_ok=True)
     os.makedirs(SESSION_DATA_DIR, exist_ok=True)
 
 
 def load_users():
-    """加载用户数据"""
     if os.path.exists(USER_DB_FILE):
         try:
             with open(USER_DB_FILE, 'r', encoding='utf-8') as f:
@@ -46,24 +47,20 @@ def load_users():
 
 
 def save_users(users):
-    """保存用户数据"""
     ensure_directories()
     with open(USER_DB_FILE, 'w', encoding='utf-8') as f:
         json.dump(users, f, ensure_ascii=False, indent=2)
 
 
 def hash_password(password: str) -> str:
-    """密码哈希"""
     return hashlib.md5(password.encode()).hexdigest()
 
 
 def get_user_sessions_file(username: str) -> str:
-    """获取用户会话文件路径"""
     return os.path.join(SESSION_DATA_DIR, f"sessions_{username}.json")
 
 
 def load_sessions(username: str) -> list:
-    """加载用户的所有会话"""
     file_path = get_user_sessions_file(username)
     if os.path.exists(file_path):
         try:
@@ -75,7 +72,6 @@ def load_sessions(username: str) -> list:
 
 
 def save_sessions(username: str, sessions: list):
-    """保存用户的所有会话"""
     ensure_directories()
     file_path = get_user_sessions_file(username)
     with open(file_path, 'w', encoding='utf-8') as f:
@@ -83,7 +79,6 @@ def save_sessions(username: str, sessions: list):
 
 
 def get_session_title(messages: list) -> str:
-    """生成会话标题"""
     for msg in messages:
         if msg.get("role") == "user":
             text = msg.get("content", "")
@@ -93,10 +88,25 @@ def get_session_title(messages: list) -> str:
     return "新会话"
 
 
+# ---------- 统一响应工具 ----------
+def resp(success: bool, msg: str, data=None, status: int = 200):
+    """
+    统一响应格式：
+    {
+        "success": true/false,
+        "msg": "提示信息",
+        "data": {...}   # 可选
+    }
+    """
+    body = {"success": success, "msg": msg}
+    if data is not None:
+        body["data"] = data
+    return jsonify(body), status
+
+
 # ---------- 路由 ----------
 @app.route('/')
 def index():
-    """主页"""
     if session.get('logged_in'):
         return render_template('chat.html', username=session.get('username'))
     return render_template('login.html')
@@ -105,14 +115,13 @@ def index():
 # ---------- 认证API ----------
 @app.route('/api/auth/login', methods=['POST'])
 def login():
-    """用户登录"""
-    data = request.json
+    data = request.get_json(silent=True) or {}
     username = data.get('username', '').strip()
     password = data.get('password', '')
     remember = data.get('remember', False)
 
     if not username or not password:
-        return jsonify({'success': False, 'error': '用户名和密码不能为空'}), 400
+        return resp(False, "用户名和密码不能为空", status=400)
 
     users = load_users()
     if username in users and users[username]['password'] == hash_password(password):
@@ -120,94 +129,89 @@ def login():
         session['username'] = username
         session['logged_in'] = True
         session.permanent = remember
+        # session['token'] = str(uuid.uuid4())
 
         logger.info(f"用户 {username} 登录成功")
-        return jsonify({
-            'success': True,
-            'data': {
-                'username': username,
-                'login_time': datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            }
+        return resp(True, "登录成功", {
+            'username': username,
+            'login_time': datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            # "token": session.get('token')
         })
 
     logger.warning(f"用户 {username} 登录失败")
-    return jsonify({'success': False, 'error': '用户名或密码错误'}), 401
+    return resp(False, "用户名或密码错误", status=401)
 
 
 @app.route('/api/auth/register', methods=['POST'])
 def register():
-    """用户注册"""
-    data = request.json
+    data = request.get_json(silent=True) or {}
     username = data.get('username', '').strip()
     password = data.get('password', '')
     confirm_password = data.get('confirm_password', '')
 
     if not username or not password:
-        return jsonify({'success': False, 'error': '用户名和密码不能为空'}), 400
+        return resp(False, "用户名和密码不能为空", status=400)
 
     if len(username) < 2:
-        return jsonify({'success': False, 'error': '用户名至少2位'}), 400
+        return resp(False, "用户名至少2位", status=400)
 
     if len(password) < 6:
-        return jsonify({'success': False, 'error': '密码长度至少6位'}), 400
+        return resp(False, "密码长度至少6位", status=400)
 
     if password != confirm_password:
-        return jsonify({'success': False, 'error': '两次输入的密码不一致'}), 400
+        return resp(False, "两次输入的密码不一致", status=400)
 
     users = load_users()
     if username in users:
-        return jsonify({'success': False, 'error': '用户名已存在'}), 400
+        return resp(False, "用户名已存在", status=400)
 
     users[username] = {
         'password': hash_password(password),
         'created_at': datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     }
     save_users(users)
-
+    db.sql_add(username, password)
     logger.info(f"新用户注册: {username}")
-    return jsonify({'success': True, 'message': '注册成功'})
+    return resp(True, "注册成功")
 
 
 @app.route('/api/auth/logout', methods=['POST'])
 def logout():
-    """退出登录"""
     username = session.get('username')
     session.clear()
     logger.info(f"用户 {username} 退出登录")
-    return jsonify({'success': True})
+    return resp(True, "退出成功")
 
 
 @app.route('/api/auth/check', methods=['GET'])
 def check_auth():
-    """检查登录状态"""
     if session.get('logged_in'):
-        return jsonify({
+        return resp(True, "已登录", {
             'logged_in': True,
             'username': session.get('username')
         })
-    return jsonify({'logged_in': False})
+    return resp(False, "未登录", {'logged_in': False})
 
 
 # ---------- 会话API ----------
 @app.route('/api/sessions', methods=['GET'])
 def get_sessions():
-    """获取所有会话"""
     if not session.get('logged_in'):
-        return jsonify({'error': '未登录'}), 401
+        return resp(False, "未登录", status=401)
 
     username = session.get('username')
     sessions = load_sessions(username)
-    return jsonify({'sessions': sessions})
+    return resp(True, "获取会话列表成功", {'sessions': sessions})
 
 
 @app.route('/api/sessions', methods=['POST'])
 def create_session():
-    """创建新会话"""
     if not session.get('logged_in'):
-        return jsonify({'error': '未登录'}), 401
+        return resp(False, "未登录", status=401)
 
     username = session.get('username')
-    messages = request.json.get('messages', [])
+    data = request.json or {}
+    messages = data.get('messages', [])
 
     session_id = str(uuid.uuid4())[:8]
     title = get_session_title(messages) if messages else "新会话"
@@ -223,26 +227,26 @@ def create_session():
     sessions.append(new_session)
     save_sessions(username, sessions)
 
-    return jsonify({'session': new_session})
+    return resp(True, "创建会话成功", {'session': new_session})
 
 
 @app.route('/api/sessions/<session_id>', methods=['PUT'])
 def update_session(session_id):
-    """更新会话"""
     if not session.get('logged_in'):
-        return jsonify({'error': '未登录'}), 401
+        return resp(False, "未登录", status=401)
 
     username = session.get('username')
-    data = request.json
+    data = request.json or {}
     messages = data.get('messages')
     title = data.get('title')
 
     sessions = load_sessions(username)
+    found = False
     for s in sessions:
         if s['id'] == session_id:
+            found = True
             if messages is not None:
                 s['messages'] = messages
-                # 自动更新标题
                 if messages and not title:
                     s['title'] = get_session_title(messages)
             if title:
@@ -250,37 +254,41 @@ def update_session(session_id):
             break
     save_sessions(username, sessions)
 
-    return jsonify({'success': True})
+    if not found:
+        return resp(False, "会话不存在", status=404)
+    return resp(True, "更新会话成功")
 
 
 @app.route('/api/sessions/<session_id>', methods=['DELETE'])
 def delete_session(session_id):
-    """删除会话"""
     if not session.get('logged_in'):
-        return jsonify({'error': '未登录'}), 401
+        return resp(False, "未登录", status=401)
 
     username = session.get('username')
     sessions = load_sessions(username)
+    before = len(sessions)
     sessions = [s for s in sessions if s['id'] != session_id]
     save_sessions(username, sessions)
 
-    return jsonify({'success': True})
+    if len(sessions) == before:
+        return resp(False, "会话不存在", status=404)
+    return resp(True, "删除会话成功")
 
 
 # ---------- 聊天API ----------
 @app.route('/api/chat/stream', methods=['POST'])
 def chat_stream():
-    """流式聊天"""
+    """流式聊天（SSE 中也带上 msg 字段）"""
     if not session.get('logged_in'):
-        return jsonify({'error': '未登录'}), 401
+        return resp(False, "未登录", status=401)
 
     username = session.get('username')
-    data = request.json
+    data = request.json or {}
     prompt = data.get('prompt', '').strip()
     session_id = data.get('session_id')
 
     if not prompt:
-        return jsonify({'error': '问题不能为空'}), 400
+        return resp(False, "问题不能为空", status=400)
 
     @stream_with_context
     def generate():
@@ -288,33 +296,31 @@ def chat_stream():
         try:
             agent = ReactAgent(user_id=username)
 
-            # 流式输出
+            # 流式输出：每个 chunk 都带 msg
             for chunk in agent.execute_stream(prompt):
                 if chunk:
                     full_response += chunk
-                    yield f"data: {json.dumps({'content': chunk, 'done': False})}\n\n"
+                    yield f"data: {json.dumps({'success': True, 'msg': chunk, 'content': chunk, 'done': False}, ensure_ascii=False)}\n\n"
 
             # 保存消息到会话
             if session_id:
                 sessions = load_sessions(username)
                 for s in sessions:
                     if s['id'] == session_id:
-                        # 添加用户消息
                         s['messages'].append({'role': 'user', 'content': prompt})
-                        # 添加助手回复
                         s['messages'].append({'role': 'assistant', 'content': full_response})
-                        # 如果只有两条消息，更新标题
                         if len(s['messages']) == 2:
                             s['title'] = get_session_title(s['messages'])
                         break
                 save_sessions(username, sessions)
 
-            yield f"data: {json.dumps({'content': '', 'done': True, 'full_response': full_response})}\n\n"
+            # 结束帧
+            yield f"data: {json.dumps({'success': True, 'msg': '回复完成', 'content': '', 'done': True, 'full_response': full_response}, ensure_ascii=False)}\n\n"
 
         except Exception as e:
-            logger.error(f"聊天错误: {str(e)}", exc_info=True)
-            error_msg = f"❌ 发生错误: {str(e)}"
-            yield f"data: {json.dumps({'content': error_msg, 'done': True, 'error': True})}\n\n"
+            logger.error(f"聊天错误: {str(e)}")
+            error_msg = f"发生错误: {str(e)}"
+            yield f"data: {json.dumps({'success': False, 'msg': error_msg, 'content': error_msg, 'done': True, 'error': True}, ensure_ascii=False)}\n\n"
 
     return Response(generate(), mimetype='text/event-stream')
 
@@ -322,13 +328,13 @@ def chat_stream():
 # ---------- 错误处理 ----------
 @app.errorhandler(404)
 def not_found(e):
-    return jsonify({'error': '接口不存在'}), 404
+    return resp(False, "接口不存在", status=404)
 
 
 @app.errorhandler(500)
 def internal_error(e):
     logger.error(f"服务器错误: {str(e)}")
-    return jsonify({'error': '服务器内部错误'}), 500
+    return resp(False, "服务器内部错误", status=500)
 
 
 # ---------- 启动 ----------
@@ -337,6 +343,6 @@ if __name__ == '__main__':
     app.run(
         debug=False,
         host='0.0.0.0',
-        port=5000,
+        port=5005,
         threaded=True
     )

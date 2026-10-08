@@ -1,30 +1,39 @@
 from celery import Celery
-from datetime import timedelta
 from celery.schedules import crontab
+import logging
+
 app = Celery(
     'celery',
     broker='redis://127.0.0.1:6379/0',
     backend='redis://127.0.0.1:6379/0',
-    include = ['celery_task.crawl_task']
+    include=[
+        'celery_task.crawl_task',
+    ],
 )
-# 配置时区
+
+# ---------- 基础配置 ----------
 app.conf.timezone = 'Asia/Shanghai'
 app.conf.enable_utc = False
-# 配置定时任务
+app.conf.broker_connection_retry_on_startup = True
+
+# ---------- 日志配置：解决重复输出 / DEBUG 被标 WARNING ----------
+app.conf.worker_hijack_root_logger = False   # 不让 Celery 接管 root logger
+app.conf.worker_loglevel = 'INFO'            # worker 默认 INFO，别开 DEBUG
+
+# ---------- 定时任务 ----------
+# 如果你要“每 4 小时”跑一次，把下面 */12 改成 */4
 app.conf.beat_schedule = {
     'schedule_crawl_pengpai': {
         'task': 'celery_task.crawl_task.crawl_pengpai',
-        'schedule': crontab(hour='*/4'),# 每隔4个小时执行
+        'schedule': crontab(hour='*/4', minute=0),      # 0:00 4:00 8:00 ...
     },
     'schedule_crawl_cctv': {
         'task': 'celery_task.crawl_task.crawl_cctv',
-        'schedule': crontab(hour='*/4', minute=1),# 每隔4个小时1分钟执行
+        'schedule': crontab(hour='*/4', minute=1),      # 0:01 4:01 8:01 ...
     },
-    'schedule_load_vector': {
-        'task': 'celery_task.vector_task.load_news_to_vector',
-        'schedule': crontab(hour='*/4', minute=5),  # 0:05,4:05,8:05...
-        # 在采集任务完成后 5 分钟执行
-    },
+    # 'schedule_load_vector': {
+    #     'task': 'celery_task.vector_task.load_news_to_vector',
+    #     'schedule': crontab(hour='*/4', minute=5),     # 留足 30 分钟给爬虫
+    #     # 如果你的爬虫很快，可以改回 minute=5
+    # },
 }
-
-app.conf.broker_connection_retry_on_startup = True
